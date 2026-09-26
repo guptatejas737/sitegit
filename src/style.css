@@ -691,7 +691,7 @@ footer {
     font-size: 12px;
   }
   .view-bottom .mono {
-    max-width: 225px;
+    max-width: calc(100% - 58px);
     line-height: 1.7;
   }
   .viewer {
