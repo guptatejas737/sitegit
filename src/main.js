@@ -285,18 +285,20 @@ function update(t) {
         Math.cos(orbit.yaw) * Math.cos(orbit.pitch) * radius,
       );
       camera.lookAt(0, -0.015, 0);
-      const a = phases[phaseIndex].anchor;
-      const screen = camera.camera.worldToScreen(new pc.Vec3(...a));
-      $("annotation").style.left =
-        `${clamp(screen.x, 35, viewer.clientWidth - (viewer.clientWidth < 540 ? 160 : 205))}px`;
-      $("annotation").style.top =
-        `${clamp(screen.y, 65, viewer.clientHeight - 75)}px`;
       canvas.dataset.camera = [orbit.yaw, orbit.pitch, orbit.distance]
         .map((x) => x.toFixed(3))
         .join(",");
       app.renderNextFrame = true;
       viewDirty = false;
     }
+    // PlayCanvas updates its projection dimensions during rendering, after ResizeObserver.
+    // Reproject the small overlay each frame so a viewport change cannot leave it stale.
+    const a = phases[phaseIndex].anchor;
+    const screen = camera.camera.worldToScreen(new pc.Vec3(...a));
+    $("annotation").style.left =
+      `${clamp(screen.x, 35, viewer.clientWidth - (viewer.clientWidth < 540 ? 160 : 205))}px`;
+    $("annotation").style.top =
+      `${clamp(screen.y, 65, viewer.clientHeight - 75)}px`;
   }
   requestAnimationFrame(update);
 }

@@ -3,6 +3,7 @@
 - Production build succeeds with pinned dependencies; npm audit reported zero vulnerabilities at install.
 - Real WebGL 2 Gaussian splat rendering verified in the Codex Chromium browser, both development and production builds. No production console errors observed.
 - Responsive layouts visually inspected at 1280×720, 390×844 and 320×740. No horizontal overflow. The phone-size canvas matches its container.
+- Resizing from a phone viewport to desktop keeps the phase annotation attached to the building; its screen position updates after PlayCanvas refreshes the projection.
 - Pointer drag changes orbit. Timeline buttons, native slider, Home/End and arrow-key stage navigation work. Camera position stays fixed through phase changes and playback. Playback completes at phase 3 and returns to the Play state.
 - Three different 898×898 WebP fallback images were exported from the actual GPU-rendered scene, with different hashes. Combined size is 75,426 bytes. The forced fallback page selects the corresponding image and displays a still-sequence note.
 - Source manifest and five compressed data textures total 3,180,000 bytes. Renderer bundle is about 622 KB gzip; app JavaScript and CSS are under 8 KB gzip combined. Assets are served locally from the deployed repository, not hotlinked.
