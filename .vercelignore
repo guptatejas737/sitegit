@@ -1,0 +1,10 @@
+qa/
+.git/
+.venv/
+node_modules/
+dist/
+docs/renovation*
+public/data/building/
+public/data/stills/
+public/data/surveys/*.splat
+*.zip

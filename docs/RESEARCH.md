@@ -1,34 +1,41 @@
-# Dataset decision — 26 September 2026
+# Data decision — 27 September 2026
 
-## Selected: path 2, one public construction splat
+| Candidate | License / access | Decision |
+|---|---|---|
+| [iVISION Fall 2024](https://www.kaggle.com/datasets/danielmao2019/ivision-fall2024), [research project](https://danielmao2019.github.io/iVISION-2DCD-dataset.github.io/) | Kaggle publishes the dataset under MIT. Original dated drone photographs are downloadable. | **Selected.** A real construction time series that can be independently reconstructed and hosted. Downloaded and hash-verified 60 photographs from each of 27 Sep, 18 Oct and 27 Nov 2024. |
+| [Splat Labs construction progress](https://www.splatlabs.ai/blog/dataset-construction-progress) | Real three-week Gaussian sequence, publicly viewable. [Embedding is documented](https://www.splatlabs.ai/docs/platform/embedding); no independent redistribution grant was established for the scan files. | Rejected for this demo because independently hosted scans are required. No iframe or vendor-hosted model is used. |
+| [Koch, König & Kropp: interior construction image sequences](https://data.mendeley.com/datasets/rskgn5f8y8/2) | CC BY 4.0; downloadable demonstration video. | Downloaded and inspected. The supplied video includes presentation overlays and a split BIM display rather than clean source walkthrough frames, making it a poor reconstruction input. |
 
-[construction building, by kavehkarimadini](https://superspl.at/scene/8a8a7cab) explicitly displays **CC BY 4.0** on the public scene page and in its HTML license link. The working public SuperSplat viewer loads [this SOG manifest](https://d28zzqy0iyovbz.cloudfront.net/8a8a7cab/v1/meta.json) and five WebP data textures. These public rendering assets were successfully downloaded without authentication. The site's separate original-file download button asks for login; that endpoint was not used. The local copy uses only the publicly delivered rendering representation covered by the displayed CC BY license.
+All selected source links were reached and the image downloads actually completed.
+`pipeline/dataset-license-evidence.json` records the public Kaggle license response.
+`pipeline/sources.json` lists the exact 180 source files, sizes and SHA-256 hashes.
+The selected photographs show site preparation, advancing groundworks and later concrete foundations in a shared construction area. Capture extents differ; one fixed spatial window is applied to all three models to exclude unrelated coverage changes. The labels are observations from the
+images, not official project milestone labels.
 
-261,427 splats; 3,180,000 bytes for the manifest and five data textures. No training, CUDA environment, or external service is required to display it. No downsampling is needed at this count. Pinned PlayCanvas renders true oriented Gaussian splats, not a point-cloud substitute. Source geometry is preserved; the timeline shows deliberately artificial height masks over this one scene. A fixed camera makes changes obvious and instantaneous. The source is a public user upload; acquisition details and chronology are unspecified.
+Other leads checked included ConSLAM, ConPR, Nothing Stands Still and MultiChange3D.
+Their academic/noncommercial restrictions or access requirements made them less
+suitable than the openly licensed iVISION source for this independently hosted
+startup demonstration. The selected source satisfies the first preference: real
+dated construction photographs processed into separate trained Gaussian records.
 
-Three name candidates: **Sitegit**, **Buildlog**, **Siteback**. Sitegit was available in the user's GitHub namespace and directly communicates construction version history.
+## Reconstruction and viewing
 
-## Ranked research candidates
+Each date was reconstructed independently with [COLMAP/pycolmap](https://github.com/colmap/colmap),
+then trained with [Brush 0.3.0](https://github.com/ArthurBrussee/brush/releases/tag/v0.3.0).
+The viewer uses [Spark](https://github.com/sparkjsdev/spark) and Three.js. These are
+existing open-source engines; the custom work is their reproducible integration,
+dated-data preparation, registration, provenance, web export and timeline viewer.
+The trained artifacts are hosted with the app on Vercel.
 
-| Source | What exists | License / access | Why not selected |
-| --- | --- | --- | --- |
-| [ConSLAM](https://github.com/mac137/ConSLAM) / [Cambridge record](https://www.repository.cam.ac.uk/handle/1810/345700) | Periodic real construction visits, RGB/NIR, LiDAR, IMU, survey reference data | Repo says academic use only; this is not a blanket commercial data redistribution grant | Download and registration/SfM/training needed; academic-only terms are a poor fit for a publicly deployed startup demo |
-| [ConPR](https://github.com/dongjae0107/ConPR) | Repeated active construction captures; camera images, LiDAR, IMU, ground truth | Dataset CC BY-NC-SA 4.0; code MIT | Raw sensor data, not browser-ready 3DGS; noncommercial data restriction |
-| [Selected SuperSplat building](https://superspl.at/scene/8a8a7cab) | Small, already-trained public Gaussian splat of one construction building | CC BY 4.0; public renderer and manifest verified | Selected, with explicit simulated chronology |
+GPS initialization alone left a vertical offset between dates. Visual registration
+used 35 static correspondences for September→October and 74 for October→November,
+with median fitting residuals about 0.25 m and 0.22 m. These are not surveying
+accuracy claims. Reconstruction artifacts and capture coverage limit comparisons.
 
-## Additional leads checked
+The initial one-model vertical-reveal demo was replaced. The current timeline
+loads three separate trained assets. It does not animate a building into existence.
 
-- [HILTI 2022](https://huggingface.co/datasets/Hilti-Research/hilti-slam-challenge-2022): approximately 350 GB of multimodal data, CC BY-NC-SA 3.0. A valuable robotics benchmark, not a ready-made construction progress splat sequence. Local `nvidia-smi` could not verify an accessible GPU, so GPU training was not assumed.
-- [Splat Labs: three weeks of construction](https://www.splatlabs.ai/blog/dataset-construction-progress): the best conceptual match, with an actual public three-week splat viewer. The public article and datasets page inspected did not expose a standalone permissively licensed download. No right to rehost was assumed merely from the “Open Dataset” label. Its hosted viewer can be explored as a separate reference, but it is not our implementation or asset source.
-- [LichtFeld showcase](https://lichtfeld.io/showcase/): construction-adjacent Nessundet Bridge renovation capture; a source credit was visible, but an explicit reuse grant for that bridge asset was not verified.
-- Nerfstudio/Polycam workflows were checked against [official Nerfstudio documentation](https://docs.nerf.studio/quickstart/custom_dataset.html). These are processing paths rather than a verified, licensed construction time series ready for this meeting. Public visibility alone was not treated as an open license.
+## URL choices
 
-## Honest scope
-
-Path 1 was ruled out for this implementation because no checked candidate combined ready-to-render repeated construction splats, verified public reuse rights, and low processing risk within the meeting deadline. This does **not** mean such a dataset cannot exist. Path 2 is viable, so no mesh/point-cloud fallback was used for the interactive 3D scene.
-
-This demo proves the interaction and presentation: orbit a Gaussian splat, keep registration fixed, rewind through illustrative layers. It does not implement video upload, reconstruction, scan alignment, automated change detection, measurements, BIM comparison, or inspection evidence. The full three-stage workflow is a product vision, not a working capture pipeline.
-
-## Replacing the demo data later
-
-Keep one coordinate frame across dated captures. Replace the single asset and masks with a manifest of aligned per-date SOG assets; load the current scene first, prefetch the next, and release old GPU resources. Replace the week labels with actual capture dates only after verifying metadata. Capture new phase stills for the WebGL fallback. Preserve license attribution for every added capture.
+Sitegit, Sitefolio and Sitecommit were considered. `sitegit.vercel.app` was already
+serving an unrelated site. The Vercel project is `pointwise-labs/sitecommit`.

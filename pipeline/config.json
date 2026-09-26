@@ -1,0 +1,33 @@
+{
+  "trainer": "Brush 0.3.0",
+  "seed": 42,
+  "records": [
+    {
+      "week": "Week-01-Fri-Sep-27-2024",
+      "date": "2024-09-27",
+      "steps": 6000,
+      "resolution": 960,
+      "maxSplats": 350000,
+      "stereo": true,
+      "directory": "final-trained"
+    },
+    {
+      "week": "Week-04-Fri-Oct-18-2024",
+      "date": "2024-10-18",
+      "steps": 6000,
+      "resolution": 960,
+      "maxSplats": 450000,
+      "stereo": true,
+      "directory": "final-trained"
+    },
+    {
+      "week": "Week-10-Wed-Nov-27-2024",
+      "date": "2024-11-27",
+      "steps": 6000,
+      "resolution": 960,
+      "maxSplats": 450000,
+      "stereo": true,
+      "directory": "final-trained"
+    }
+  ]
+}

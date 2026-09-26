@@ -1,0 +1,907 @@
+{
+  "dataset": "danielmao2019/ivision-fall2024",
+  "license": "MIT",
+  "source": "https://www.kaggle.com/datasets/danielmao2019/ivision-fall2024",
+  "files": [
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092322_0003_D.JPG",
+      "bytes": 8396800,
+      "sha256": "bf1af397c6b9ee78a5984abd16d981ad7456901ec595205b6c7a006e91833c02"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092326_0005_D.JPG",
+      "bytes": 6688768,
+      "sha256": "ba6ab3339c900663f0202e2d459057bb92f9186d49b7d23681125e361a130aba"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092330_0007_D.JPG",
+      "bytes": 6750208,
+      "sha256": "2711259b74509d88f9105cd4f349e93ad1c161a9c846cf8e46bd5ced45452155"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092334_0009_D.JPG",
+      "bytes": 6758400,
+      "sha256": "c2efa7714268c0e488dff008edbcb5bf49b84e9091e911555201976d6428340d"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092338_0011_D.JPG",
+      "bytes": 7434240,
+      "sha256": "f786d34565d36a08e9df4815be4f52508cd9a7fbb7b70620c545e7ebf919e2df"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092342_0013_D.JPG",
+      "bytes": 6873088,
+      "sha256": "027f2b64e94977bf1a842d7946f28beefeb23ddaf26bb755dc835c6329cb6203"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092344_0014_D.JPG",
+      "bytes": 8196096,
+      "sha256": "9c0c088754930648f4ab86a424c595d62f5751b7ba897e29fd338be9c2cead96"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092348_0016_D.JPG",
+      "bytes": 8777728,
+      "sha256": "a83ac73a324b41e8bdba154c0b44f1654df22eec8f495b0e2f8334eb1cffca48"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092352_0018_D.JPG",
+      "bytes": 8622080,
+      "sha256": "ae95a26c091acb48aac3e649124d2be19c96e52439784ac21a291e41c1520622"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092356_0020_D.JPG",
+      "bytes": 9142272,
+      "sha256": "d5657a7e83afa38997bc8e7e7172ea5b096fc2d8c0ab875ff780054db51c6ae7"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092400_0022_D.JPG",
+      "bytes": 8802304,
+      "sha256": "ea8d3e55927f3a3d75918461ff9c9fd12aed1a6199657318a0f1716cfdce9f3f"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092404_0024_D.JPG",
+      "bytes": 8364032,
+      "sha256": "1f9a7d47f7c8d4a53a8fb4ae74648a90b094d3ed14efb6e19a09b29388284d22"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092408_0026_D.JPG",
+      "bytes": 7938048,
+      "sha256": "e11222ef20b1aef36d057d4221d9c0a05ee075b1ffd02303aeaeb1776bc864bb"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092412_0028_D.JPG",
+      "bytes": 9359360,
+      "sha256": "639df52acbef9a080a2980a316d4988ad05d033e388c36a7cbe85b298638cda9"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092416_0030_D.JPG",
+      "bytes": 8388608,
+      "sha256": "918588a7f87792681619f3f191550baf73035ce394366af6a77de656b3ba1d0c"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092420_0032_D.JPG",
+      "bytes": 9015296,
+      "sha256": "3642ea98d33873c1472bab507cce217c38982b336d91a074f9f117e3414017ad"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092424_0034_D.JPG",
+      "bytes": 8560640,
+      "sha256": "a29f2c920f8c6c7e570b36554b2e89813ad1e803af9816e971950765c5bffa77"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092428_0036_D.JPG",
+      "bytes": 7610368,
+      "sha256": "7594a25650845f65c651990ed259031bc733573544f0f63a18baa33152692432"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092430_0037_D.JPG",
+      "bytes": 8794112,
+      "sha256": "eec5941b65ff9eba4f50f9cd44038ef4f7e6cf2448d87f40022251fac1cd8fc8"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092434_0039_D.JPG",
+      "bytes": 8888320,
+      "sha256": "c938424405f64685641c6b5204352db0f37bf1d7c5dfa0034eff6cd313b03c88"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092438_0041_D.JPG",
+      "bytes": 8212480,
+      "sha256": "ec3612c8a1980d0b020fe217edd993fb549d730534b7cc3f39a6ffd812a61140"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092442_0043_D.JPG",
+      "bytes": 7634944,
+      "sha256": "a0fa84aca8e5b28ca03314faee3693103e0b3936872e2928e4f7421e72d22321"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092446_0045_D.JPG",
+      "bytes": 7081984,
+      "sha256": "5ca8f1852b63acb36f8b80cc487f91befd3501db6f65ae0b17e5310d06dd69d1"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092450_0047_D.JPG",
+      "bytes": 7913472,
+      "sha256": "a2ab91d900ffac4d8062c1a938e061344296b7b83dadf5d591166390dc93235a"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092454_0049_D.JPG",
+      "bytes": 9023488,
+      "sha256": "2f3c4e07ab4212739065b09249109405f98c723362c996aa425f87773c8d17c3"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092458_0051_D.JPG",
+      "bytes": 9097216,
+      "sha256": "637b0b29740a623a322768346b906188a92e51a1b048e18d3cb628ede3008700"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092502_0053_D.JPG",
+      "bytes": 9572352,
+      "sha256": "b04d0c37d54a38867cb5a4a78b6a85cfe5d8bd37f71b030a344d5a6906d3a9f6"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092506_0055_D.JPG",
+      "bytes": 9375744,
+      "sha256": "b1320b05d68226bbc9fdb7d787f9ff56306daab93e303c4fc4851bdcdae9f83d"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092510_0057_D.JPG",
+      "bytes": 9437184,
+      "sha256": "97e2a331c7de141fdaf762a9c4aa1a518e347a0b9383f5265913e77f924ca94a"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092514_0059_D.JPG",
+      "bytes": 9285632,
+      "sha256": "e3973ccdfb39a7d59467f57fe2cc5e6e4b7b87e9dcb6d5933d3da37dd793c0cb"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092516_0060_D.JPG",
+      "bytes": 9330688,
+      "sha256": "65f0096d2c119e95f2408a03385db5dc4c48fe2d43795471a309f912cbe16f4e"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092520_0062_D.JPG",
+      "bytes": 9412608,
+      "sha256": "bda907387b0a20f181d7503014804d6acbc74cb0123ee2e55c76ebfd3e056cfc"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092524_0064_D.JPG",
+      "bytes": 7467008,
+      "sha256": "5714b5ceee56cfd808ac78f8ec91861ad6ad17c028324323df4a0243d87000fd"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092528_0066_D.JPG",
+      "bytes": 8257536,
+      "sha256": "23ae316712dd332372c5e9ae246ecb85388eec7abfb8795635315306b515189e"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092532_0068_D.JPG",
+      "bytes": 7274496,
+      "sha256": "afe3a7c2135b711a55345a415a1fbd7c036fbcc6e3f67dc842228ee937d6dfc4"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092536_0070_D.JPG",
+      "bytes": 7176192,
+      "sha256": "75350563cc4cefe49e4dff2b0b1883a6620858031581d3baaf40cfa1328f3614"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092540_0072_D.JPG",
+      "bytes": 6868992,
+      "sha256": "03574f8aa1e63aacd803a3d53643451750cb183aa193cc70e409fbabbb09c345"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092544_0074_D.JPG",
+      "bytes": 7340032,
+      "sha256": "bf78848f9a347c34af200810deae6012e510f0c1a127ec4a6eb3abcd7ea68ede"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092548_0076_D.JPG",
+      "bytes": 7188480,
+      "sha256": "3f72fc3db04c12728d9fb8c9d9e0b65132df26cf18709782611b046406d89f94"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092552_0078_D.JPG",
+      "bytes": 7368704,
+      "sha256": "65f097b3eb0cedeb3f4a48909acfceced96e3378500cfa22128256d6e4ce4460"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092556_0080_D.JPG",
+      "bytes": 7282688,
+      "sha256": "02e9ac7d4f44cf05b5fb9c3c5a8bfcd98081f9b62880695ef816dc561392ab11"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092600_0082_D.JPG",
+      "bytes": 7847936,
+      "sha256": "711e60f3a700380ffd00bc1643fb27ac56e8cee440ea3976cd67b1a825f6c1dc"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092602_0083_D.JPG",
+      "bytes": 7188480,
+      "sha256": "65e40d4d623a312aa6e52a29f4ed0da288f8cf379c74fdc059b76a799fd580b2"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092606_0085_D.JPG",
+      "bytes": 7032832,
+      "sha256": "c4c9296ddfdd588de411d493b99960deee4150e523fa7633014e04cc7d1cad97"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092610_0087_D.JPG",
+      "bytes": 7229440,
+      "sha256": "ee4fbc92b55b2ebc04393e9d2506aa90b5609c71d11ff5f9899218d37a95e949"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092614_0089_D.JPG",
+      "bytes": 7495680,
+      "sha256": "7cdf6e879d1832ee20d621948da7d2dd050c497ae449b89fc53942a3386d9e51"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092618_0091_D.JPG",
+      "bytes": 7430144,
+      "sha256": "98b650dc631106f07d8b88a0ed65d3f019fb3988628cfe33a93e5fb23bf9a287"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092622_0093_D.JPG",
+      "bytes": 7249920,
+      "sha256": "e22ad7292d62b095a592e2338d6d3360c4390f4c43ec6724f9c809b6e851baff"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092626_0095_D.JPG",
+      "bytes": 7503872,
+      "sha256": "4fd490807357ada82dcf2896fb7476ec5e6f901566f5dd2df7e7041cfc6a68bb"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092630_0097_D.JPG",
+      "bytes": 6352896,
+      "sha256": "fdd5ac73c5ffbb89d9ec2cc614b9e90ec448f5efaa3e994b07bfee63d7cb600b"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092634_0099_D.JPG",
+      "bytes": 6733824,
+      "sha256": "f1306c0c9671e5f61500bcdf98a106b6788c023c8de9917bb3d50e954ab051b5"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092638_0101_D.JPG",
+      "bytes": 6553600,
+      "sha256": "30b1e42b878f43177bf067bd15eede5d984331c190cc77c3938a6ca2fb18a4ee"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092642_0103_D.JPG",
+      "bytes": 6418432,
+      "sha256": "d2d26af387ec7152c24d412e8524cd26827f24adad54df509932670355a9d132"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092646_0105_D.JPG",
+      "bytes": 6602752,
+      "sha256": "16861b479a71041d398d4d693086c61d80c4e083411093b74ae22d7be39f3e99"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092648_0106_D.JPG",
+      "bytes": 7397376,
+      "sha256": "bf8e71ee7c1cd525357d469c4fa9ecdab78e4ba1019219261e538d3b8ac66e31"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092652_0108_D.JPG",
+      "bytes": 8257536,
+      "sha256": "466518d8c221547376f4415a6988e11ec58920dbcea27c095aa8d79d696fe637"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092656_0110_D.JPG",
+      "bytes": 7516160,
+      "sha256": "7c1e7a4b0ff98473719db7c086665ad1a9a2e804f2eac87258a84f6f79817f7f"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092700_0112_D.JPG",
+      "bytes": 7409664,
+      "sha256": "ee08237c424e5c9be3f493c3c068029d3fbe9de8f05d75d402dfe7649321fe56"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092704_0114_D.JPG",
+      "bytes": 6586368,
+      "sha256": "2556505f2731cf7d5ecf221f4b55d5af332714f5fb758d9200fa07e51d5f2bd4"
+    },
+    {
+      "name": "Week-01-Fri-Sep-27-2024/Week-01-Fri-Sep-27-2024-LiDAR/DJI_20240927092708_0116_D.JPG",
+      "bytes": 6258688,
+      "sha256": "dcf8dff6f1ee21a434003cd07caebfe30be668f034e420f2137efaca4e033995"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110208_0003_D.JPG",
+      "bytes": 7200768,
+      "sha256": "8aa0f168e5a409ee92c0edcf9480790baf97f1155a2beb3cac63a8da8fd86e1b"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110212_0005_D.JPG",
+      "bytes": 7262208,
+      "sha256": "6c60f8c212b03fd6b193f23a075e6758e700be9a0efb8747234a4ff6bf2b81d3"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110216_0007_D.JPG",
+      "bytes": 7512064,
+      "sha256": "0909556379ceef0468224931d0af841fffd21340cd6a85b8c6b86562d9fcd26a"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110220_0009_D.JPG",
+      "bytes": 7741440,
+      "sha256": "23497d3a5b62d53f58abd96e23f0f1f143cece77c7950d6b99b2a906dcdb1e8e"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110224_0011_D.JPG",
+      "bytes": 7630848,
+      "sha256": "1e5c07b3678bfde9686114509e1d494e00ccc0e35f9d771f566c391c6552b479"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110228_0013_D.JPG",
+      "bytes": 7725056,
+      "sha256": "c6265ce45c51cfc3615197c6abe0f3d5b2785c8ba7e40b915d8ac7ff013c18e9"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110232_0015_D.JPG",
+      "bytes": 7364608,
+      "sha256": "29018419084e32c0a197217f8f176405f526b03369acf226380c66a22538ea75"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110236_0017_D.JPG",
+      "bytes": 7729152,
+      "sha256": "25120aa056dab7cd3a9abd1cbf986dd852d46bb11dd2ced55f6597c910f72e9d"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110240_0019_D.JPG",
+      "bytes": 7028736,
+      "sha256": "a76cfe0032bb4f13ec3f90e6de664a465087de37cda6265ae275c7058ece964b"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110244_0021_D.JPG",
+      "bytes": 7462912,
+      "sha256": "a0352eef3be662e844d481c24e93b203012bfeae776434c8a043c5bab168a0c2"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110248_0023_D.JPG",
+      "bytes": 8019968,
+      "sha256": "f8dafb99c830156118083a5c3d59ddd5f6adee6d7677e7e8593cddd9c331d7d0"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110252_0025_D.JPG",
+      "bytes": 7708672,
+      "sha256": "5a272a2d73d33b461c94855554fbbeba352a96626a68a768e8fe0f58313dfa84"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110256_0027_D.JPG",
+      "bytes": 8425472,
+      "sha256": "5538b6e6cf5d71e0fadc9105504feba0453d61e26bd4bcd4537e756a1255d84e"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110300_0029_D.JPG",
+      "bytes": 9502720,
+      "sha256": "8e0b0a3d83d54e114cfb60f9a1ae2d700aa4b78d961b4f1ad3706d54e001f5c9"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110304_0031_D.JPG",
+      "bytes": 8564736,
+      "sha256": "09928d5a5839f314bee42826d9bfe40a936bc2852bedfc946118cac24176c8aa"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110308_0033_D.JPG",
+      "bytes": 8130560,
+      "sha256": "828576058c7f75e1a6e013949fa2502a25a18ef6a4530f8917f97d1b810a508b"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110312_0035_D.JPG",
+      "bytes": 9203712,
+      "sha256": "e7237c2fa8294e3bb2cd5f972542709559665df4d007a9da188819c404493f28"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110316_0037_D.JPG",
+      "bytes": 9277440,
+      "sha256": "1483d13eb276d0950dba32672c86611e93c391a14594bafd6dfea2c86499591b"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110320_0039_D.JPG",
+      "bytes": 9723904,
+      "sha256": "c13e2fc6ad546854898a39828a6b52bfb1d2bffecd5dcf3206e07750fbce5b75"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110324_0041_D.JPG",
+      "bytes": 9875456,
+      "sha256": "62f65389e908a34a9a90b73733b7a911f6a5849d5e1c5ae6c955f0192046fba8"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110328_0043_D.JPG",
+      "bytes": 10067968,
+      "sha256": "d99fb89b65509ceaf4df5272678bb120f92a5b8e96774271d03c19d890cc746c"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110332_0045_D.JPG",
+      "bytes": 10145792,
+      "sha256": "59040e95f826fcc3955db78769632bbc8ab454846ea31b3fc2745565b9a6c2c2"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110336_0047_D.JPG",
+      "bytes": 10510336,
+      "sha256": "0805cef448b7e518ea933152a1cc4ec085bebfef46b24cde0f2dc5a76d4f3ab0"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110340_0049_D.JPG",
+      "bytes": 9531392,
+      "sha256": "cf3a8e0554ca66dcbfd541fce7af7dcc17b0869c2bfd463f7cbea4b0539c4bb6"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110344_0051_D.JPG",
+      "bytes": 8949760,
+      "sha256": "5e1bd3a03e2a08d977e328539be52f943eedf99147abf25ea6151cc656008fae"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110348_0053_D.JPG",
+      "bytes": 9072640,
+      "sha256": "15b8d05a66931d21b6d47682f8a155021416182b070bdc12bb13d8c3706616cf"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110352_0055_D.JPG",
+      "bytes": 7766016,
+      "sha256": "31b53726e81f6cd0c8e067e72122b101443c32e36cae028f24043a2ed9bcd5d7"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110356_0057_D.JPG",
+      "bytes": 7245824,
+      "sha256": "4cb9dc74095556535574b6fdc8a5bdabedde0c2aa054ebe44879749e86df4dd7"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110400_0059_D.JPG",
+      "bytes": 8175616,
+      "sha256": "ef79dff99e8214312479448c44497bbd1a0a3887f0bb6c1dc349cb40f97583dd"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110404_0061_D.JPG",
+      "bytes": 8417280,
+      "sha256": "8697a48b49e26b502be2e6dc9c5d2628e48dbe845c12613d534776fdff1965a2"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110410_0064_D.JPG",
+      "bytes": 8962048,
+      "sha256": "26b80e49c9d621e574b4198fd958d6d3bdd3c3d37309c48224af95119036e6b5"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110414_0066_D.JPG",
+      "bytes": 8867840,
+      "sha256": "bfc7aa88fe9b847c8108777230ee929ac25c595d4d69116fd980754bdeb2fb03"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110418_0068_D.JPG",
+      "bytes": 9498624,
+      "sha256": "bcbb00456c47923e5a3fdd0897fac402c2a6bb6688930f58f2d333a7ef3c47c0"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110422_0070_D.JPG",
+      "bytes": 8753152,
+      "sha256": "f80d2edc8f241a46f210824b005b611e75288d3eff22f1637a682ad172b21f85"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110426_0072_D.JPG",
+      "bytes": 8237056,
+      "sha256": "dcc761acaca796138267ad85535dd0cf747292425a68192c6a8c9a9f62db6e94"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110430_0074_D.JPG",
+      "bytes": 8089600,
+      "sha256": "825ba6d4a283dce5bbc25aca2c4480af2d57d78a75a025c71743759b98c603e8"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110434_0076_D.JPG",
+      "bytes": 8167424,
+      "sha256": "5afcd0893b68337e53420d9479eb1ca345d5301f048716a3e548f293151c3efd"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110438_0078_D.JPG",
+      "bytes": 7794688,
+      "sha256": "c93555f3523800cda5089737575b1da26eac754f6fcfeef530a6a354ebcaec1d"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110442_0080_D.JPG",
+      "bytes": 7311360,
+      "sha256": "5b12ea16d6d13e699479c7dfdc9971f2e65d201bc83529548674b0585ceab6bd"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110446_0082_D.JPG",
+      "bytes": 6578176,
+      "sha256": "0e27253280917e615afd02cb8fcf1051f1cb9e849e201d8f43707809fdbb0b34"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110450_0084_D.JPG",
+      "bytes": 6664192,
+      "sha256": "e2f927e1824eeb54214cf835f14f677568e59f99bc9e396c4618b945bed99d20"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110454_0086_D.JPG",
+      "bytes": 6696960,
+      "sha256": "2ab1266dc4ab3ffac17629cc97e6a20486b72116b6e3ef574ca26232c9febffa"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110458_0088_D.JPG",
+      "bytes": 6864896,
+      "sha256": "827be3dc9a126cc33e555d227dcc6a524028eaf33bd77ed965de9618ccf89d15"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110502_0090_D.JPG",
+      "bytes": 7450624,
+      "sha256": "4b5b0d148d6c9e356b242fce76474acfaef7e0dad524fe38534a47f7ce8f8a63"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110506_0092_D.JPG",
+      "bytes": 7626752,
+      "sha256": "a53e90c0c25f28dde3f3ae069208c78acc3e499eff19df68748afe9f41945314"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110510_0094_D.JPG",
+      "bytes": 8060928,
+      "sha256": "2bafb42da6fb06907a0d3f6ceadf6098aadd789d742ad753bbaafd15fd37ebd6"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110514_0096_D.JPG",
+      "bytes": 7733248,
+      "sha256": "3d3300be3d6212aa2cf69f5251eae446b19cdd2e595af40334491daeefb38423"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110518_0098_D.JPG",
+      "bytes": 7532544,
+      "sha256": "b3d5f3a6a29b3250abea694454a27987ab2eaff22bafd62d57bca2700f1349fa"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110522_0100_D.JPG",
+      "bytes": 7438336,
+      "sha256": "1bbf38ccae5cef26e1ed0c90fde8dfd53f98b964cb50a9a7140cdcf05f0dd44e"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110526_0102_D.JPG",
+      "bytes": 7237632,
+      "sha256": "9b1663356cb05b6a06411c1b5639a332027fb5026d1e17f95bb72524c13a9ea6"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110530_0104_D.JPG",
+      "bytes": 6897664,
+      "sha256": "58d8a414c5ea59ba343419d655059c95110a72e479d0753005795b431f43e429"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110534_0106_D.JPG",
+      "bytes": 6787072,
+      "sha256": "438219c6ae6f5a237f51816ac9e3566fc780b6dcc20ffcfc5963aeb606250a0d"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110538_0108_D.JPG",
+      "bytes": 6676480,
+      "sha256": "c378a4933e4a869491c148fcfb87771bf6e5afb9cfc299809b11d16b431cb387"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110542_0110_D.JPG",
+      "bytes": 6615040,
+      "sha256": "b57cbf482e00e55ee5c49e83fdf11a52377868bb94675ebd73a831b60e8742a5"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110546_0112_D.JPG",
+      "bytes": 6365184,
+      "sha256": "2c75a1e9b85706f068e1613ac85b2b2f047b35e232667bcfd73b882274a0ec8b"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110550_0114_D.JPG",
+      "bytes": 7229440,
+      "sha256": "1ce1db78986a7e8b7fae7f30a5243bba1dcb18824338797cf7e98e53e7a3d56f"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110554_0116_D.JPG",
+      "bytes": 6934528,
+      "sha256": "1d5d085b66f85a61fa26ec124ab0e0cbcc2eafdd726269be6f4c1a4df91973b3"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110558_0118_D.JPG",
+      "bytes": 7360512,
+      "sha256": "a3f1e6fdcdebcab8ea9bc2776ea301428d49b482e538e9aba87f1b23dab603d0"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110602_0120_D.JPG",
+      "bytes": 7704576,
+      "sha256": "98df5eff615c363ef8ba3a18dfc2eee0207ff243290ac28d8e56e82e975c6a16"
+    },
+    {
+      "name": "Week-04-Fri-Oct-18-2024/Week-04-Fri-Oct-18-2024-LiDAR/DJI_20241018110606_0122_D.JPG",
+      "bytes": 7507968,
+      "sha256": "4c447db011a5d200b7981940adeace9dc0e5b6d83d9d18877c4049c5b64c50b6"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127103615_0003_D.JPG",
+      "bytes": 6316032,
+      "sha256": "1ee1db4f5ebe2a1f954410f6cf265a4f83615331b2a8678cecb7f3a7d8599578"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127103627_0009_D.JPG",
+      "bytes": 6516736,
+      "sha256": "c6920a5616e25dd14ba1f0e0db8f66013017a6fc4e921dfe9839e47413ddcc45"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127103639_0015_D.JPG",
+      "bytes": 6848512,
+      "sha256": "e783451ebe92feb75b1862afda477d85d3b6a6b31c91700b6db94eb912e3f663"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127103649_0020_D.JPG",
+      "bytes": 6848512,
+      "sha256": "01b7d382ba43ae1b17d474a88007570a98cd0a361c43338a9b09a4abb4e5ad13"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127103701_0026_D.JPG",
+      "bytes": 6926336,
+      "sha256": "087acee8c04af850b1e771e30ce0f8cc6b247a175e39945b450d0ac13cad999d"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127103713_0032_D.JPG",
+      "bytes": 6356992,
+      "sha256": "f766f8f5c634b7d05e1e26c84bda4be84466a8621dd0c0998a9628a36472dbda"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127103725_0038_D.JPG",
+      "bytes": 6266880,
+      "sha256": "5f4f9678b54fec0e55929667a4768a521e7069a8a64821a11e1274417bb3be10"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127103735_0043_D.JPG",
+      "bytes": 6230016,
+      "sha256": "b8db48f65178a66ebdc85edb5cddd3285af7950ac7c459cd5b726b6b1fecf599"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127103748_0049_D.JPG",
+      "bytes": 6049792,
+      "sha256": "ac5cae852ba5d7f0f57a7018910557c00eec8b5c0f93ec7626b3f723a25ab0fd"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127103800_0055_D.JPG",
+      "bytes": 5992448,
+      "sha256": "1f072a5b5564cf3186c2a278550da0a3145dd1daa5d98827681de500bbf23acb"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127103812_0061_D.JPG",
+      "bytes": 5722112,
+      "sha256": "9a9045ebea7aa228fef1f86713b24ba2ac6a723d9a5ebf6d0f117ef31fe1bc1c"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127103822_0066_D.JPG",
+      "bytes": 5943296,
+      "sha256": "e4074c462c16026b41ebea81e657500dd836cf330f5f4d45e5d7d5f352205e01"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127103834_0072_D.JPG",
+      "bytes": 5820416,
+      "sha256": "b86f88ead7b7cbdf33b143c321b545528986480f545e48d48ee13e06dcb36ace"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127103845_0078_D.JPG",
+      "bytes": 5767168,
+      "sha256": "91a35304c523690fb34bd280517cde2e4483cacb84558979514a5451376b56ba"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127103857_0084_D.JPG",
+      "bytes": 5709824,
+      "sha256": "8b269833d2cc2a90f8cb95fa326cae659092987b704545b435294e292e09e021"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127103907_0089_D.JPG",
+      "bytes": 5627904,
+      "sha256": "e4111a4b03080cde19c3f3169eb4ba3c895d264bb6f31866fa99f97f77619129"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127103919_0095_D.JPG",
+      "bytes": 5857280,
+      "sha256": "52a0ccb5ced8b46cea81ed15d6b7a1c3c44dd398132e9ed823a58db6cf309589"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127103931_0101_D.JPG",
+      "bytes": 5844992,
+      "sha256": "5094028e014a87cd30982088b25585e21e8fb5d2adb33d1d9e6595dc785e6afe"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127103943_0107_D.JPG",
+      "bytes": 5836800,
+      "sha256": "19e28e6c6aaccc562d9cf03b9567cc3943a2f9572748628763d118a5a4931ae2"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127103953_0112_D.JPG",
+      "bytes": 5992448,
+      "sha256": "eafd89ff7b7b2277b41d5fdce2a694f146a607e33992edf5ff3bf9a1a1fa588f"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127104005_0118_D.JPG",
+      "bytes": 6176768,
+      "sha256": "46733d65e469844659e50ae6e1a2125d7937270a44dc580812f70a8ccce5ec7b"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127104017_0124_D.JPG",
+      "bytes": 6066176,
+      "sha256": "8afaaeb83690f2aa6798a89aabcef9467673570b1fca9434cb35b15fd1063641"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127104029_0130_D.JPG",
+      "bytes": 6062080,
+      "sha256": "5dc4ea5aa1948370736c035fd6ae41721923982a07009f5d8ed1f8c9b7b40d86"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127104041_0136_D.JPG",
+      "bytes": 6152192,
+      "sha256": "e6138b0c1841f6bdb48df68646178b62899a2c2afb4a388169c12cee5d5d0067"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127104051_0141_D.JPG",
+      "bytes": 6303744,
+      "sha256": "e0248d3980d127033ec5ffbf14366adf961f184a5e0565b40c3a72d10e93642c"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127104103_0147_D.JPG",
+      "bytes": 6430720,
+      "sha256": "c0e475d61e1f666da8d94c73bddc1f483243ca0a3a54d3418a4ad37a71c8dc13"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127104115_0153_D.JPG",
+      "bytes": 6316032,
+      "sha256": "519a2d93c897e95a48ab82b9d5e8ad5c894ba691d3a3aacea7e32840df46c1f3"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127104127_0159_D.JPG",
+      "bytes": 6537216,
+      "sha256": "41babb1586c567bc73c8a80876939de7992aa23b964610ac95130df4a00abe1a"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127104137_0164_D.JPG",
+      "bytes": 6385664,
+      "sha256": "ecf1f6a90c84feadec74c01305e6c223fd4d6748442652177f032334a147c402"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127104149_0170_D.JPG",
+      "bytes": 6488064,
+      "sha256": "8af7a51bbb09dd9605715b18a423ec6c9d7a194ffa92352b688628ab301099ed"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127104201_0176_D.JPG",
+      "bytes": 6537216,
+      "sha256": "eae5c11dec951550db282a595f8aa54347aad4b8da4d15fc5bb328f80f45aa7c"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127104213_0182_D.JPG",
+      "bytes": 6758400,
+      "sha256": "6817717fdf26f05019c26b76df8c592caa68df63dec35164d93814b92cff099d"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127104223_0187_D.JPG",
+      "bytes": 6864896,
+      "sha256": "65f7f244d757980eb4051d1ee63fe4bad5b6fd4827067f60969ec8db9b7bb9f5"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127104235_0193_D.JPG",
+      "bytes": 7032832,
+      "sha256": "e090df269b12b23410b0a1f12c8a3321cdee53c02c602c30ff9f666d0e2f40d9"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127104247_0199_D.JPG",
+      "bytes": 7135232,
+      "sha256": "f415cee3efb0b0e9663be5322965666212a34bcf9de3ccd288df5561f0820c14"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127104259_0205_D.JPG",
+      "bytes": 6635520,
+      "sha256": "72fb963e40e626a758ab01465cc87d6f834aa12fc1290a82fb2d0f2e11fb4096"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127104309_0210_D.JPG",
+      "bytes": 6619136,
+      "sha256": "5098e618f67249904307f16a4a654cd546f48e9746a464230af054cd86ef5f55"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127104321_0216_D.JPG",
+      "bytes": 6905856,
+      "sha256": "1e7ef1414db7543d789fa428e5ea1edacb3b32204f15574932c63810a0958124"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127104333_0222_D.JPG",
+      "bytes": 6938624,
+      "sha256": "1c37e48454aa907c34300d2ededb46b7d02fee4b92571e84b7df37e70db8675f"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127104345_0228_D.JPG",
+      "bytes": 7081984,
+      "sha256": "c0273729f2592e56798a965ea6f3a9ee4fa1dd8fb66818951f8d8be9d980951b"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127104357_0234_D.JPG",
+      "bytes": 7331840,
+      "sha256": "16e3ea6bb5eeed4d73c54d58ef01145bde1b52a97720439de1560cf12bb5df29"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127104407_0239_D.JPG",
+      "bytes": 7520256,
+      "sha256": "ab38a983311dac5a13ed452e4b69eec11dc4f32787d5d032f0dc3b54d89efdf0"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127104419_0245_D.JPG",
+      "bytes": 7696384,
+      "sha256": "e978ee985f9d95fb0c228fb1f2186a5549feb7e23958625ad6c62b8eb913e151"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127104431_0251_D.JPG",
+      "bytes": 7540736,
+      "sha256": "68d84c6fb1da3ef7314a2d99d29ead29615027070775c3a72eee0f3ecca49c75"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127104443_0257_D.JPG",
+      "bytes": 7573504,
+      "sha256": "e2bb414cf6856f2948d02d9c3c34870972f4560c706207fc2055f35f7b86ad0b"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127104453_0262_D.JPG",
+      "bytes": 7733248,
+      "sha256": "72d40b23e0f393d674269abb88bd264110a5d12a5e48e86805496a65cb1257c1"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127104505_0268_D.JPG",
+      "bytes": 7745536,
+      "sha256": "5fdd39a4b48515a2738eac04a9588078aca0a262313a5b788143169a9a58b3f8"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127104517_0274_D.JPG",
+      "bytes": 7696384,
+      "sha256": "23dd289e8ce29b943dfdb81773b47d26096c82b362052952ee224cbd356f9212"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127104529_0280_D.JPG",
+      "bytes": 7745536,
+      "sha256": "7ce3843fc4ba442fbfda489d1947467a73bbf0dab6732715b97aff88715b4172"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127104539_0285_D.JPG",
+      "bytes": 7634944,
+      "sha256": "192367fb836fd0a8c2c85208b0a4b427dfde748ff6aab8be1ee1e40a2cbe24a3"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127104551_0291_D.JPG",
+      "bytes": 7553024,
+      "sha256": "48b8aadb854dd12f91c813b3946788a698757427204d8214ac98b7997bd9cd9c"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127104603_0297_D.JPG",
+      "bytes": 7110656,
+      "sha256": "46fc4e92fd72e152153cd0ee34d1d224c004b842a3757b056dc9f8a0b1eca6a5"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127104615_0303_D.JPG",
+      "bytes": 7229440,
+      "sha256": "459fd9b41c93fdf308cf071b731ee44be1eda279acdb95cc2ae579089e7fa804"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127104625_0308_D.JPG",
+      "bytes": 6991872,
+      "sha256": "5c935227868762905364cf2104427adde26d51e383c29791eaedb6453a8353cd"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127104637_0314_D.JPG",
+      "bytes": 6860800,
+      "sha256": "b7f94b767904e2a8cba15e186cca80c4a99539a2c354980235b2d4b23cfa8448"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127104649_0320_D.JPG",
+      "bytes": 6709248,
+      "sha256": "f5e0042e4f01d7dcb74fadc2b75c31eda3c3afd67063199a39a62d089cd3f569"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127104701_0326_D.JPG",
+      "bytes": 6955008,
+      "sha256": "4d8515558e0d97a658486f4380378119839f7aa926810e4c7e2e582893649b41"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127104711_0331_D.JPG",
+      "bytes": 6885376,
+      "sha256": "a9deab608aaccca5c6e16aa09b3f33f26cd9a6ab49317e09e31317f5a18873ad"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127104723_0337_D.JPG",
+      "bytes": 7045120,
+      "sha256": "493d381dad4bfd94973e22aeb8d269cc980f8fec56c41a5ba6f8e34e6208fb8c"
+    },
+    {
+      "name": "Week-10-Wed-Nov-27-2024/Week-10-Wed-Nov-27-2024-LiDAR/DJI_20241127104736_0343_D.JPG",
+      "bytes": 7225344,
+      "sha256": "05f6fb93841a1cf70b61472a7781b0dfc2111096cc5f2ab716914051c8872aa7"
+    }
+  ]
+}

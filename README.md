@@ -1,3 +1,3 @@
-Redeploy: `npm ci && npm run build`, then publish `dist/` to GitHub Pages, Netlify, or Vercel; pushing `main` runs the included Pages workflow.
-Data: [construction building — kavehkarimadini](https://superspl.at/scene/8a8a7cab); one public Gaussian splat with three illustrative vertical reveals, not a measured time series.
-License: app code MIT; source splat and rendered stills [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); see `public/data/ATTRIBUTION.md` and `docs/RESEARCH.md`.
+Redeploy: `npm ci && npm run build && npx vercel --prod`; train from photographs with [the pipeline instructions](pipeline/README.md).
+Data: [iVISION Fall 2024](https://www.kaggle.com/datasets/danielmao2019/ivision-fall2024), 180 photographs across 27 Sep, 18 Oct and 27 Nov; three independently reconstructed Gaussian models.
+License: app code MIT; dataset published under MIT; [credits and method](public/data/ATTRIBUTION.md), [research](docs/RESEARCH.md), and per-record provenance are included.

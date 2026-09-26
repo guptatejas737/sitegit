@@ -1,0 +1,5 @@
+pycolmap==4.2.0
+kagglesdk==0.1.37
+numpy==2.5.1
+opencv-python==4.10.0.84
+Pillow==11.3.0

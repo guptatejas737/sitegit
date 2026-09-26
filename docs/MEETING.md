@@ -1,15 +1,25 @@
 # Two-minute walkthrough
 
-**0:00–0:20** Open the link before the meeting so assets are cached. Say: “The vision is Git for construction sites: walk the site with a phone, save a navigable 3D record, repeat next week.”
+Live demo: https://sitecommit.vercel.app
 
-**0:20–0:50** Drag the building to show that it is navigable 3D. Say: “This is a public Gaussian splat. Today's stages are illustrative masks of one capture, not our own recorded site progress.”
+1. Open the Vercel demo and allow the first survey to load. Start with November's
+   concrete foundations. Drag gently to show that the scene is navigable in 3D.
+2. Scrub back to September. The same camera now shows the earlier site preparation.
+   Move to October to show the intervening groundworks.
+3. Enable **Compare previous** and move the divider across the site. The two sides
+   are independent dated reconstructions in a shared frame.
 
-**0:50–1:25** Move the timeline back to Week 01, then forward, keeping the same viewing angle. Or press Play. Say: “The intended workflow preserves the same site across versions, so a project manager can revisit an earlier view after work is covered.”
+Suggested wording: “We built this reconstruction pipeline and version-history
+viewer using public iVISION drone photographs. Each date was reconstructed and
+trained separately. The product vision is to repeat this with a phone walkthrough
+every two days, preserving each state as construction advances.”
 
-**1:25–2:00** Rewind once. Say: “The next validation is repeated real-site walkthroughs: can we reliably align them and preserve enough detail to answer your inspection questions?”
+Be clear that the source is drone photography, the example dates are weeks apart,
+and training currently runs offline. This is not yet an automated phone-capture
+service. Geometry at edges and unobserved surfaces is imperfect; do not use this
+prototype to measure construction or locate buried services.
 
-Use Reset view if the camera becomes awkward. The default opens on the complete scene. Keyboard: arrow keys on the timeline jump stages; Home/End select first/last. When the 3D canvas is focused, arrows orbit and +/- zoom. Pointer: drag to orbit; wheel or two-finger pinch to zoom.
-
-If WebGL 2 or asset loading fails, the same slider selects three pre-rendered phase stills and displays an explicit note. Append `?fallback=1` to preview that mode. Avoid claiming survey-grade accuracy, real weekly reconstruction, automatic change detection, smartphone acquisition of this source asset, or visibility behind captured surfaces.
-
-The phone layout was tested in a browser viewport. Physical iOS/Android hardware performance still depends on its GPU and browser; open the live link on your presentation phone once before the meeting.
+Keep the page open before the meeting so the three small assets can cache. If
+WebGL is unavailable, the date controls switch real rendered survey stills. The
+explicit `?fallback=1` URL is useful for rehearsing that path. `?record=0` opens
+September first. A network connection is needed for a fresh first visit.

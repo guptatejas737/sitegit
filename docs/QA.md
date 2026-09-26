@@ -1,16 +1,33 @@
-# Verification — 27 September 2026 (India time)
+# Validation — 27 September 2026
 
-- Production build succeeds with pinned dependencies; npm audit reported zero vulnerabilities at install.
-- Real WebGL 2 Gaussian splat rendering verified in the Codex Chromium browser, both development and production builds. No production console errors observed.
-- Responsive layouts visually inspected at 1280×720, 390×844 and 320×740. No horizontal overflow. The phone-size canvas matches its container.
-- Resizing from a phone viewport to desktop keeps the phase annotation attached to the building; its screen position updates after PlayCanvas refreshes the projection.
-- Pointer drag changes orbit. Timeline buttons, native slider, Home/End and arrow-key stage navigation work. Camera position stays fixed through phase changes and playback. Playback completes at phase 3 and returns to the Play state.
-- Three different 898×898 WebP fallback images were exported from the actual GPU-rendered scene, with different hashes. Combined size is 75,426 bytes. The forced fallback page selects the corresponding image and displays a still-sequence note.
-- Source manifest and five compressed data textures total 3,180,000 bytes. Renderer bundle is about 622 KB gzip; app JavaScript and CSS are under 8 KB gzip combined. Assets are served locally from the deployed repository, not hotlinked.
-- GitHub Pages build and deployment succeeded. The public root returned HTTP 200 with the correct title.
+Production: https://sitecommit.vercel.app — Vercel deployment
+`dpl_6obPSeA8Zgy2KZE6XJ7onuBojjeu`.
+Anonymous requests returned HTTP 200 for the page, manifest, all three SPZ models
+and all six stills. Downloaded production bytes matched the committed hashes.
+The production URL was also checked in the browser at both viewport sizes:
+actual Gaussian rendering, all dates, stable camera, comparison and the mobile
+still fallback behaved as expected.
 
-## Limits of testing
+- Ran the complete pipeline entry point with the verified source-image cache and
+  completed training checkpoints. Download verification, all three camera models,
+  undistortion, stereo, cross-date registration, final export and SPZ compression
+  completed successfully. Each published model underwent 6,000 Brush steps.
+- Asset checks validate three actual SPZ headers/counts, distinct hashes, 60
+  registered source cameras per date, training provenance, and six bundled stills.
+- Browser checks used the Codex Chromium browser at 1280×800 and 390×844. Confirmed
+  real WebGL rendering, different files for each date, unchanged camera coordinates
+  when switching dates, direct drag orbit, wheel zoom, reset, keyboard timeline
+  control, before/after comparison, divider movement and no horizontal overflow.
+- The GPU renderer now stops updating while idle. A settled view recorded one
+  frame; new camera/record changes trigger sorting and rendering as required.
+- Forced fallback (`?fallback=1`) showed the correct portrait still on the phone
+  viewport, kept the date slider functional and disabled the 3D controls.
+- A physical handset and native multi-touch pinch were not available. Touch orbit
+  and pinch are provided by Three.js OrbitControls; handset testing remains a
+  practical pre-meeting check. Viewport testing is not a physical-device claim.
+- Visible limitations: soft edges, low-texture areas, vegetation and incompletely
+  observed surfaces. The fixed crop shows the common construction area; different
+  capture extents must not be interpreted as construction changes.
 
-Phone **viewport** testing was performed in Chromium. No physical iPhone or Android device, Safari engine, or real multitouch device was available. Pinch zoom is implemented with two tracked Pointer Events; a real-device pinch test is still advisable before the meeting. Do not describe this as certified across every phone. Browser/driver-specific failures fall back to stills after WebGL unavailability, context loss, or a 25-second load timeout.
-
-Vite reports expected browser externalization warnings for PlayCanvas's Node worker alternatives; browser worker paths were verified by successful production rendering. The dynamic renderer chunk triggers a size warning but is loaded separately, after the application frame, and it does not block the still fallback.
+The only observed rendering warning was a shader signed/unsigned conversion
+warning from the Intel driver; no application or rendering errors were observed.

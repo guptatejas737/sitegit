@@ -1,0 +1,249 @@
+{
+  "date": "2024-10-18",
+  "sourceImages": 60,
+  "trainingImages": 55,
+  "heldOutFromOptimizationImages": 5,
+  "trainingSteps": 6000,
+  "maxTrainingResolution": 960,
+  "maxSplats": 450000,
+  "stereoInitialization": true,
+  "shDegree": 0,
+  "trainer": "Brush 0.3.0",
+  "trainedPlySha256": "b1e55d4f90860249c9e804a353e2b61d29c4042a2874fa6c567f0aa25d7283a6",
+  "trainedGaussians": 450000,
+  "exportedGaussians": 267682,
+  "splatSha256": "3e5acbe72242a33ffb11ed936d6618da9ed01fdea471c86b19c3d80ca83d9c4c",
+  "gpsAlignment": {
+    "originLatLonAlt": [
+      43.4695,
+      -80.5365,
+      290
+    ],
+    "axes": "east, up, south; metres",
+    "registeredImages": 60,
+    "sparsePoints": 41825,
+    "cameraGpsResidualMedianM": 0.6766183356944203,
+    "cameraGpsResidualMaxM": 1.35858573725062,
+    "similarityMatrix": [
+      [
+        -27.31334570291112,
+        -1.9231776848753088,
+        -2.5917721931189655,
+        -38.443688165249476
+      ],
+      [
+        2.814383672143808,
+        -3.3830300735973435,
+        -27.149016576341527,
+        78.48629449606399
+      ],
+      [
+        1.5796012327791402,
+        -27.226664211924575,
+        3.5564539687544166,
+        2.099464457214578
+      ]
+    ],
+    "bounds": [
+      [
+        -152.0591188302737,
+        5.931984266679165,
+        -121.36244281511114
+      ],
+      [
+        -30.518761504745367,
+        7.57048097201357,
+        -11.961104516495364
+      ],
+      [
+        76.2451741914992,
+        23.247075071477607,
+        168.07303321151593
+      ]
+    ]
+  },
+  "visualRegistration": {
+    "reference": "Week-01-Fri-Sep-27-2024",
+    "moving": "Week-04-Fri-Oct-18-2024",
+    "method": "SIFT 3D correspondences + LO-RANSAC similarity",
+    "descriptorMatches": 46,
+    "inliers": 35,
+    "inlierMedianResidualM": 0.24860494386879411,
+    "inlierMaxResidualM": 0.6772336190368613,
+    "scale": 0.9977338677010826,
+    "rotation": [
+      [
+        0.9999977866475346,
+        0.0021015025305906087,
+        -0.00010191734828944083
+      ],
+      [
+        -0.0021014255962423494,
+        0.9999975113578526,
+        0.000749191941260234
+      ],
+      [
+        0.00010349152341408881,
+        -0.0007489761113100072,
+        0.9999997141621038
+      ]
+    ],
+    "translation": [
+      2.837196619733305,
+      -5.9362050332773,
+      -0.3108930700836936
+    ],
+    "matrix": [
+      [
+        0.9977316593643667,
+        0.0020967402478297807,
+        -0.00010168639009466213,
+        2.837196619733305
+      ],
+      [
+        -0.002096663487824933,
+        0.9977313846985276,
+        0.0007474941732040556,
+        -5.9362050332773
+      ],
+      [
+        0.00010325699793021598,
+        -0.0007472788323530501,
+        0.9977335825109329,
+        -0.3108930700836936
+      ]
+    ],
+    "outputFrame": "Week-01-Fri-Sep-27-2024",
+    "inlierThresholdM": 0.7,
+    "descriptorRatioThreshold": 0.65
+  },
+  "stereo": {
+    "method": "calibrated SGBM stereo with left/right consistency",
+    "pairs": [
+      {
+        "first": "DJI_20241018110212_0005_D.JPG",
+        "second": "DJI_20241018110208_0003_D.JPG",
+        "points": 388189
+      },
+      {
+        "first": "DJI_20241018110228_0013_D.JPG",
+        "second": "DJI_20241018110224_0011_D.JPG",
+        "points": 369732
+      },
+      {
+        "first": "DJI_20241018110236_0017_D.JPG",
+        "second": "DJI_20241018110232_0015_D.JPG",
+        "points": 0
+      },
+      {
+        "first": "DJI_20241018110244_0021_D.JPG",
+        "second": "DJI_20241018110240_0019_D.JPG",
+        "points": 202054
+      },
+      {
+        "first": "DJI_20241018110252_0025_D.JPG",
+        "second": "DJI_20241018110248_0023_D.JPG",
+        "points": 214934
+      },
+      {
+        "first": "DJI_20241018110308_0033_D.JPG",
+        "second": "DJI_20241018110304_0031_D.JPG",
+        "points": 314094
+      },
+      {
+        "first": "DJI_20241018110316_0037_D.JPG",
+        "second": "DJI_20241018110312_0035_D.JPG",
+        "points": 291696
+      },
+      {
+        "first": "DJI_20241018110324_0041_D.JPG",
+        "second": "DJI_20241018110320_0039_D.JPG",
+        "points": 365038
+      },
+      {
+        "first": "DJI_20241018110332_0045_D.JPG",
+        "second": "DJI_20241018110328_0043_D.JPG",
+        "points": 150385
+      },
+      {
+        "first": "DJI_20241018110348_0053_D.JPG",
+        "second": "DJI_20241018110344_0051_D.JPG",
+        "points": 358332
+      },
+      {
+        "first": "DJI_20241018110356_0057_D.JPG",
+        "second": "DJI_20241018110352_0055_D.JPG",
+        "points": 0
+      },
+      {
+        "first": "DJI_20241018110404_0061_D.JPG",
+        "second": "DJI_20241018110400_0059_D.JPG",
+        "points": 0
+      },
+      {
+        "first": "DJI_20241018110410_0064_D.JPG",
+        "second": "DJI_20241018110414_0066_D.JPG",
+        "points": 0
+      },
+      {
+        "first": "DJI_20241018110422_0070_D.JPG",
+        "second": "DJI_20241018110418_0068_D.JPG",
+        "points": 0
+      },
+      {
+        "first": "DJI_20241018110438_0078_D.JPG",
+        "second": "DJI_20241018110434_0076_D.JPG",
+        "points": 374552
+      },
+      {
+        "first": "DJI_20241018110454_0086_D.JPG",
+        "second": "DJI_20241018110450_0084_D.JPG",
+        "points": 0
+      },
+      {
+        "first": "DJI_20241018110510_0094_D.JPG",
+        "second": "DJI_20241018110506_0092_D.JPG",
+        "points": 0
+      },
+      {
+        "first": "DJI_20241018110518_0098_D.JPG",
+        "second": "DJI_20241018110514_0096_D.JPG",
+        "points": 11432
+      },
+      {
+        "first": "DJI_20241018110526_0102_D.JPG",
+        "second": "DJI_20241018110522_0100_D.JPG",
+        "points": 333181
+      },
+      {
+        "first": "DJI_20241018110534_0106_D.JPG",
+        "second": "DJI_20241018110530_0104_D.JPG",
+        "points": 426685
+      },
+      {
+        "first": "DJI_20241018110542_0110_D.JPG",
+        "second": "DJI_20241018110538_0108_D.JPG",
+        "points": 0
+      }
+    ],
+    "rawPoints": 3800304,
+    "seedPoints": 391825,
+    "voxelSizeM": 0.22
+  },
+  "commonDisplayBoundsMetres": {
+    "x": [
+      -130,
+      55
+    ],
+    "y": [
+      -6,
+      40
+    ],
+    "z": [
+      -105,
+      5
+    ]
+  },
+  "viewerAssetSha256": "3215e70e60b5a9bf64c7ab005ed3643fc65981e1cc59187e078aecda3067b9f4",
+  "viewerAssetBytes": 4109981
+}

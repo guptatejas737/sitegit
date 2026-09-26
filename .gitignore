@@ -4,3 +4,7 @@ dist/
 *.log
 .env*
 qa/
+.vercel/
+.venv/
+__pycache__/
+public/data/surveys/*.splat

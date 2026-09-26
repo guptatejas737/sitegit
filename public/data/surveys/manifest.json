@@ -1,0 +1,68 @@
+{
+  "source": "https://www.kaggle.com/datasets/danielmao2019/ivision-fall2024",
+  "license": "MIT",
+  "camera": {
+    "position": [
+      -41,
+      120,
+      41
+    ],
+    "mobilePosition": [
+      135,
+      230,
+      -40
+    ],
+    "target": [
+      -55,
+      1,
+      -50
+    ]
+  },
+  "records": [
+    {
+      "date": "2024-09-27",
+      "label": "27 Sep 2024",
+      "imageCount": 60,
+      "pointCount": 235852,
+      "sha256": "9271b7f504e85cd7755a0aa6d256b4be55548ff0dca7e91aed39e618aa94151b",
+      "note": "Graded ground and early excavation.",
+      "url": "./data/surveys/2024-09-27.spz",
+      "still": "./data/surveys/2024-09-27.webp",
+      "available": true,
+      "stillMobile": "./data/surveys/2024-09-27-mobile.webp",
+      "bytes": 3541224,
+      "trainingSteps": 6000,
+      "uncompressedSha256": "0ab1ff3f28bf7b2302919dd7e18cca2ee084d37c5daa1b29ee3d48f2e41fcc59"
+    },
+    {
+      "date": "2024-10-18",
+      "label": "18 Oct 2024",
+      "imageCount": 60,
+      "pointCount": 267682,
+      "sha256": "3215e70e60b5a9bf64c7ab005ed3643fc65981e1cc59187e078aecda3067b9f4",
+      "note": "Excavation and material staging have advanced.",
+      "url": "./data/surveys/2024-10-18.spz",
+      "still": "./data/surveys/2024-10-18.webp",
+      "available": true,
+      "stillMobile": "./data/surveys/2024-10-18-mobile.webp",
+      "bytes": 4109981,
+      "trainingSteps": 6000,
+      "uncompressedSha256": "3e5acbe72242a33ffb11ed936d6618da9ed01fdea471c86b19c3d80ca83d9c4c"
+    },
+    {
+      "date": "2024-11-27",
+      "label": "27 Nov 2024",
+      "imageCount": 60,
+      "pointCount": 286500,
+      "sha256": "6c4eba9e1f9d3579cbca414dc63c3b4d93a101a7d91ad0c54c31dd464c8d4848",
+      "note": "Concrete foundation walls and pads are visible.",
+      "url": "./data/surveys/2024-11-27.spz",
+      "still": "./data/surveys/2024-11-27.webp",
+      "available": true,
+      "stillMobile": "./data/surveys/2024-11-27-mobile.webp",
+      "bytes": 4358946,
+      "trainingSteps": 6000,
+      "uncompressedSha256": "1ecc0ffb42db536f9d8849df3d90cdc11364c59a0e99f0e32115de73cd2c0fca"
+    }
+  ]
+}

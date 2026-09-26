@@ -1,417 +1,394 @@
 import "./style.css";
 
-// One public capture; all three phases are illustrative vertical reveals, not dated scans.
-const phases = [
-  {
-    title: "Lower floors",
-    note: "The first visible layers of the site record.",
-    marker: "01 / Lower floors",
-    cutoff: -0.1,
-    anchor: [0.18, -0.23, -0.12],
-  },
-  {
-    title: "Upper floors",
-    note: "New layers appear in the same 3D position.",
-    marker: "02 / Upper floors",
-    cutoff: 0.19,
-    anchor: [0.17, 0.08, -0.13],
-  },
-  {
-    title: "Roof & facade",
-    note: "Scrub back to revisit an earlier layer.",
-    marker: "03 / Roof & facade",
-    cutoff: 0.58,
-    anchor: [0.16, 0.31, -0.12],
-  },
-];
 const $ = (id) => document.getElementById(id);
 const viewer = $("viewer"),
-  canvas = $("scene"),
-  slider = $("timeline");
-const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
-const query = new URLSearchParams(location.search);
-if (query.has("capture")) document.body.classList.add("capture-mode");
-let phaseValue = query.has("phase")
-  ? Math.min(2, Math.max(0, Number(query.get("phase")) || 0))
-  : 2;
-let phaseIndex = Math.round(phaseValue),
-  playing = false,
-  lastTime = 0,
-  clock = 0;
-let app,
+  query = new URLSearchParams(location.search);
+const dates = ["27 Sep 2024", "18 Oct 2024", "27 Nov 2024"];
+let manifest,
+  selected = 2,
+  requested = 2,
+  serial = 0,
+  comparing = false,
+  wipe = 0.5;
+let renderer,
   camera,
-  pc,
-  sceneMaterial,
-  failed = false,
-  loaded = false,
-  viewDirty = true;
-let targetCutoff = phases[phaseIndex].cutoff,
-  currentCutoff = targetCutoff;
-let orbit = { yaw: 2.5, pitch: 0.28, distance: 2.35 };
-let desiredOrbit = { ...orbit };
-const pointers = new Map();
-let pinchDistance = 0;
-const clamp = (n, min, max) => Math.min(max, Math.max(min, n));
-const initialStill = "./data/building/source-preview.webp";
-
-function stop() {
-  playing = false;
-  $("play").setAttribute("aria-pressed", "false");
-  $("play").setAttribute("aria-label", "Play timeline");
-  $("play-label").textContent = "Play";
-  $("play-icon").innerHTML = '<path d="M6 3.8 16 10 6 16.2Z"/>';
+  controls,
+  THREE,
+  SparkRenderer,
+  SplatMesh,
+  currentPoints,
+  previousPoints;
+let fallback = query.has("fallback"),
+  dirty = true,
+  rendering = false;
+const cache = new Map();
+let needsSplatUpdate = true,
+  renderedFrames = 0;
+function invalidateView() {
+  dirty = true;
+  needsSplatUpdate = true;
 }
 
-function setPhase(value, manual = false) {
-  if (manual) stop();
-  phaseValue = clamp(Number(value), 0, 2);
-  phaseIndex = Math.round(phaseValue);
-  const p = phases[phaseIndex],
-    lower = Math.floor(phaseValue),
-    upper = Math.min(2, lower + 1);
-  targetCutoff =
-    phases[lower].cutoff +
-    (phases[upper].cutoff - phases[lower].cutoff) * (phaseValue - lower);
-  slider.value = phaseValue;
-  slider.setAttribute(
-    "aria-valuetext",
-    `Week 0${phaseIndex + 1}: ${p.title}, illustrative`,
-  );
-  $("phase-title").textContent = p.title;
-  $("phase-count").textContent = `0${phaseIndex + 1} / 03`;
-  $("change-text").textContent = p.note;
-  $("annotation-text").textContent = p.marker;
-  $("rail-fill").style.width = `${phaseValue * 50}%`;
-  document.querySelectorAll(".phase-stop[data-phase]").forEach((button, i) => {
-    button.classList.toggle("active", i === phaseIndex);
-    if (i === phaseIndex) button.setAttribute("aria-current", "step");
-    else button.removeAttribute("aria-current");
-  });
-  viewer.dataset.phase = phaseIndex;
-  viewDirty = true;
-  if (failed) setStill();
-  if (app) app.renderNextFrame = true;
+function setRecordUI(index) {
+  selected = index;
+  const record = manifest.records[index];
+  $("capture-date").textContent = record.label;
+  $("current-title").textContent = record.label;
+  $("image-count").textContent = record.imageCount;
+  $("record-hash").textContent = record.sha256.slice(0, 8);
+  $("record-note").textContent = record.note;
+  $("point-count").textContent =
+    `${record.pointCount.toLocaleString()} GAUSSIANS`;
+  $("survey-caption").textContent = `SURVEY 0${index + 1}`;
+  $("timeline").value = index;
+  $("timeline").setAttribute("aria-valuetext", record.label);
+  $("still").src = record.still;
+  $("mobile-still").srcset = record.stillMobile || record.still;
+  $("still").alt = `Construction site recorded ${record.label}`;
+  document
+    .querySelectorAll("[data-record]")
+    .forEach((b) =>
+      b.setAttribute("aria-current", String(+b.dataset.record === index)),
+    );
+  document
+    .querySelectorAll("[data-date]")
+    .forEach((b) => b.classList.toggle("active", +b.dataset.date === index));
+  $("compare").disabled = index === 0 || fallback || !previousPoints;
+  viewer.dataset.record = record.date;
+  viewer.dataset.asset = record.url;
+  if (index === 0) setCompare(false);
 }
 
-function setStill() {
-  const still = $("still");
-  still.onerror = () => {
-    still.onerror = null;
-    still.src = initialStill;
-  };
-  still.src = `./data/stills/phase-${phaseIndex + 1}.webp`;
-  still.alt = `Illustrative phase ${phaseIndex + 1}: ${phases[phaseIndex].title}; a vertical reveal of the same public building splat`;
-}
-
-function fallback(reason) {
-  if (failed) return;
-  failed = true;
-  stop();
-  clearTimeout(loadTimeout);
-  console.info("Sitegit still-image fallback:", reason);
-  viewer.classList.remove("ready");
-  viewer.classList.add("fallback");
-  viewer.dataset.renderMode = "stills";
+function showFallback(reason) {
+  fallback = true;
+  renderer?.dispose();
   $("loading").hidden = true;
   $("fallback-note").hidden = false;
-  $("render-label").textContent = "STILL SEQUENCE";
+  $("view-type").textContent = "Survey image";
+  viewer.classList.remove("ready");
+  viewer.classList.add("fallback");
+  viewer.dataset.renderMode = "still";
+  $("compare").disabled = true;
   $("reset").disabled = true;
-  setStill();
-  if (app) app.autoRender = false;
+  setCompare(false);
+  if (manifest) setRecordUI(requested);
+  console.info("Still fallback:", reason);
 }
 
-slider.addEventListener("input", () => setPhase(slider.value, true));
-// Native range controls retain keyboard semantics; one key moves a complete commit.
-slider.addEventListener("keydown", (e) => {
-  const movements = { ArrowRight: 1, ArrowUp: 1, ArrowLeft: -1, ArrowDown: -1 };
-  if (e.key in movements) {
-    e.preventDefault();
-    setPhase(Math.round(phaseValue) + movements[e.key], true);
+async function loadRecord(index) {
+  if (cache.has(index)) return cache.get(index);
+  const job = (async () => {
+    const mesh = new SplatMesh({
+      url: manifest.records[index].url,
+      lod: false,
+    });
+    await mesh.initialized;
+    const scene = new THREE.Scene();
+    const spark = new SparkRenderer({
+      renderer,
+      autoUpdate: false,
+      enableLod: false,
+      onDirty: () => (dirty = true),
+      minSortIntervalMs: 40,
+    });
+    scene.add(spark, mesh);
+    return { scene, spark, mesh };
+  })();
+  cache.set(index, job);
+  try {
+    return await job;
+  } catch (e) {
+    cache.delete(index);
+    throw e;
   }
-  if (e.key === "Home" || e.key === "End") {
-    e.preventDefault();
-    setPhase(e.key === "Home" ? 0 : 2, true);
-  }
-});
-document
-  .querySelectorAll(".phase-stop[data-phase]")
-  .forEach((button) =>
-    button.addEventListener("click", () =>
-      setPhase(button.dataset.phase, true),
-    ),
+}
+
+async function selectRecord(index) {
+  if (!manifest) return;
+  requested = Math.max(
+    0,
+    Math.min(manifest.records.length - 1, Math.round(index)),
   );
-$("play").addEventListener("click", () => {
-  if (playing) return stop();
-  if (phaseValue >= 1.98) setPhase(0);
-  clock = phaseValue * 3;
-  playing = true;
-  $("play").setAttribute("aria-pressed", "true");
-  $("play").setAttribute("aria-label", "Pause timeline");
-  $("play-label").textContent = "Pause";
-  $("play-icon").innerHTML = '<path d="M5 4h3v12H5zm7 0h3v12h-3z"/>';
-});
-$("reset").addEventListener("click", () => {
-  desiredOrbit = { yaw: 2.5, pitch: 0.28, distance: 2.35 };
-});
-canvas.addEventListener("contextmenu", (e) => e.preventDefault());
-canvas.addEventListener("pointerdown", (e) => {
-  canvas.setPointerCapture(e.pointerId);
-  pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
-  if (pointers.size === 2) {
-    const [a, b] = [...pointers.values()];
-    pinchDistance = Math.hypot(a.x - b.x, a.y - b.y);
-  }
-});
-canvas.addEventListener("pointermove", (e) => {
-  const old = pointers.get(e.pointerId);
-  if (!old) return;
-  pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
-  if (pointers.size === 1) {
-    desiredOrbit.yaw -= (e.clientX - old.x) * 0.008;
-    desiredOrbit.pitch = clamp(
-      desiredOrbit.pitch + (e.clientY - old.y) * 0.006,
-      -0.15,
-      1.2,
-    );
-  } else if (pointers.size === 2) {
-    const [a, b] = [...pointers.values()],
-      distance = Math.hypot(a.x - b.x, a.y - b.y);
-    if (pinchDistance > 0 && distance > 0)
-      desiredOrbit.distance = clamp(
-        (desiredOrbit.distance * pinchDistance) / distance,
-        0.7,
-        3.3,
-      );
-    pinchDistance = distance;
-  }
-});
-function release(e) {
-  pointers.delete(e.pointerId);
-  pinchDistance = 0;
-}
-canvas.addEventListener("pointerup", release);
-canvas.addEventListener("pointercancel", release);
-canvas.addEventListener("lostpointercapture", release);
-canvas.addEventListener(
-  "wheel",
-  (e) => {
-    e.preventDefault();
-    desiredOrbit.distance = clamp(
-      desiredOrbit.distance * Math.exp(clamp(e.deltaY, -120, 120) * 0.0015),
-      0.7,
-      3.3,
-    );
-  },
-  { passive: false },
-);
-canvas.addEventListener("keydown", (e) => {
-  if (
-    ![
-      "ArrowLeft",
-      "ArrowRight",
-      "ArrowUp",
-      "ArrowDown",
-      "+",
-      "=",
-      "-",
-    ].includes(e.key)
-  )
+  const token = ++serial,
+    targetIndex = requested;
+  if (fallback) {
+    setRecordUI(targetIndex);
     return;
-  e.preventDefault();
-  if (e.key === "ArrowLeft") desiredOrbit.yaw -= 0.12;
-  if (e.key === "ArrowRight") desiredOrbit.yaw += 0.12;
-  if (e.key === "ArrowUp")
-    desiredOrbit.pitch = clamp(desiredOrbit.pitch + 0.08, -0.15, 1.2);
-  if (e.key === "ArrowDown")
-    desiredOrbit.pitch = clamp(desiredOrbit.pitch - 0.08, -0.15, 1.2);
-  if (e.key === "+" || e.key === "=")
-    desiredOrbit.distance = clamp(desiredOrbit.distance * 0.9, 0.7, 3.3);
-  if (e.key === "-")
-    desiredOrbit.distance = clamp(desiredOrbit.distance * 1.1, 0.7, 3.3);
-});
-canvas.addEventListener("webglcontextlost", (e) => {
-  e.preventDefault();
-  fallback("WebGL context lost");
-});
-document.addEventListener("visibilitychange", () => {
-  if (document.hidden) stop();
-});
-const touchScreen = matchMedia("(pointer: coarse), (max-width: 540px)");
-const updateHint = () => {
-  $("view-help").textContent = touchScreen.matches
-    ? "DRAG TO ORBIT / PINCH TO ZOOM"
-    : "DRAG TO ORBIT / SCROLL TO ZOOM";
-};
-touchScreen.addEventListener("change", updateHint);
-updateHint();
-setPhase(phaseValue);
-const loadTimeout = setTimeout(() => fallback("3D loading timed out"), 25000);
-
-function update(t) {
-  const dt = Math.min((t - lastTime) / 1000, 0.1);
-  lastTime = t;
-  if (playing && !document.hidden) {
-    clock += dt;
-    setPhase(
-      reducedMotion
-        ? Math.min(2, Math.floor(clock / 2))
-        : Math.min(2, clock / 3),
-    );
-    if (phaseValue >= 2) stop();
   }
-  if (loaded && !failed) {
-    let moving = false;
-    for (const key of ["yaw", "pitch", "distance"]) {
-      const delta = desiredOrbit[key] - orbit[key];
-      if (Math.abs(delta) > 0.00001) {
-        moving = true;
-        orbit[key] += delta * (reducedMotion ? 1 : Math.min(1, dt * 14));
-      }
-    }
-    if (Math.abs(currentCutoff - targetCutoff) > 0.00001) {
-      moving = true;
-      currentCutoff +=
-        (targetCutoff - currentCutoff) *
-        (reducedMotion ? 1 : Math.min(1, dt * 16));
-      sceneMaterial.setParameter("uReveal", currentCutoff);
-      sceneMaterial.update();
-    }
-    if (moving || viewDirty) {
-      const aspect = Math.max(0.5, viewer.clientWidth / viewer.clientHeight);
-      const radius = orbit.distance * (aspect < 0.9 ? 1.08 : 1);
-      camera.setPosition(
-        Math.sin(orbit.yaw) * Math.cos(orbit.pitch) * radius,
-        Math.sin(orbit.pitch) * radius,
-        Math.cos(orbit.yaw) * Math.cos(orbit.pitch) * radius,
-      );
-      camera.lookAt(0, -0.015, 0);
-      canvas.dataset.camera = [orbit.yaw, orbit.pitch, orbit.distance]
-        .map((x) => x.toFixed(3))
-        .join(",");
-      app.renderNextFrame = true;
-      viewDirty = false;
-    }
-    // PlayCanvas updates its projection dimensions during rendering, after ResizeObserver.
-    // Reproject the small overlay each frame so a viewport change cannot leave it stale.
-    const a = phases[phaseIndex].anchor;
-    const screen = camera.camera.worldToScreen(new pc.Vec3(...a));
-    $("annotation").style.left =
-      `${clamp(screen.x, 35, viewer.clientWidth - (viewer.clientWidth < 540 ? 160 : 205))}px`;
-    $("annotation").style.top =
-      `${clamp(screen.y, 65, viewer.clientHeight - 75)}px`;
+  $("loading-label").textContent = `Opening ${dates[targetIndex]} survey`;
+  $("loading").hidden = false;
+  try {
+    const target = await loadRecord(targetIndex);
+    if (token !== serial || fallback) return;
+    currentPoints = target;
+    previousPoints = null;
+    setCompare(false);
+    setRecordUI(targetIndex);
+    $("loading").hidden = true;
+    invalidateView();
+    if (targetIndex > 0)
+      loadRecord(targetIndex - 1)
+        .then((previous) => {
+          if (token !== serial || fallback) return;
+          previousPoints = previous;
+          $("compare").disabled = false;
+          dirty = true;
+        })
+        .catch(() => {
+          $("compare").title = "Previous survey unavailable";
+        });
+  } catch (e) {
+    if (token === serial) showFallback(e.message);
   }
-  requestAnimationFrame(update);
 }
-requestAnimationFrame(update);
+
+function setCompare(enabled) {
+  comparing = Boolean(enabled && selected > 0 && !fallback);
+  $("compare").setAttribute("aria-pressed", String(comparing));
+  $("comparison").hidden = !comparing;
+  viewer.classList.toggle("is-comparing", comparing);
+  if (comparing) {
+    $("previous-label").textContent = dates[selected - 1];
+    $("selected-label").textContent = dates[selected];
+  }
+  invalidateView();
+}
+function setWipe(value) {
+  wipe = Math.max(0.08, Math.min(0.92, value));
+  $("wipe-line").style.left = `${wipe * 100}%`;
+  dirty = true;
+}
+$("wipe-handle").addEventListener("pointerdown", (e) => {
+  e.stopPropagation();
+  e.currentTarget.setPointerCapture(e.pointerId);
+});
+$("wipe-handle").addEventListener("pointermove", (e) => {
+  if (!e.currentTarget.hasPointerCapture(e.pointerId)) return;
+  const r = viewer.getBoundingClientRect();
+  setWipe((e.clientX - r.left) / r.width);
+});
+$("wipe-handle").addEventListener("keydown", (e) => {
+  if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+    e.preventDefault();
+    setWipe(wipe + (e.key === "ArrowLeft" ? -0.04 : 0.04));
+  }
+});
+$("compare").addEventListener("click", () => setCompare(!comparing));
+document
+  .querySelectorAll("[data-record]")
+  .forEach((b) =>
+    b.addEventListener("click", () => selectRecord(+b.dataset.record)),
+  );
+document
+  .querySelectorAll("[data-date]")
+  .forEach((b) =>
+    b.addEventListener("click", () => selectRecord(+b.dataset.date)),
+  );
+$("timeline").addEventListener("input", (e) => selectRecord(+e.target.value));
+function resetCamera() {
+  if (!controls) return;
+  camera.position.fromArray(
+    viewer.clientWidth / viewer.clientHeight < 0.9
+      ? manifest.camera.mobilePosition
+      : manifest.camera.position,
+  );
+  controls.target.fromArray(manifest.camera.target);
+  controls.update();
+  dirty = true;
+}
+$("reset").addEventListener("click", resetCamera);
+$("scene").addEventListener("webglcontextlost", (e) => {
+  e.preventDefault();
+  showFallback("WebGL context lost");
+});
+const small = matchMedia("(pointer: coarse), (max-width:640px)");
+const hint = () =>
+  ($("view-help").textContent = small.matches
+    ? "Drag to orbit · Pinch to zoom"
+    : "Drag to orbit · Scroll to zoom");
+small.addEventListener("change", hint);
+hint();
+
+async function draw() {
+  requestAnimationFrame(draw);
+  if (fallback || !renderer || !currentPoints || document.hidden) return;
+  controls.update();
+  if (!dirty || rendering) return;
+  rendering = true;
+  dirty = false;
+  try {
+    camera.updateMatrixWorld();
+    // Sort and regenerate only when the view or selected record changes.
+    // Spark's onDirty also requests a final draw after its worker finishes;
+    // that draw must not launch another forced update and keep the GPU busy.
+    if (needsSplatUpdate) {
+      needsSplatUpdate = false;
+      await currentPoints.spark.update({ scene: currentPoints.scene, camera });
+      if (comparing && previousPoints)
+        await previousPoints.spark.update({
+          scene: previousPoints.scene,
+          camera,
+        });
+    }
+    if (fallback) return;
+    const width = viewer.clientWidth,
+      height = viewer.clientHeight;
+    renderer.setScissorTest(false);
+    renderer.clear();
+    if (comparing && previousPoints) {
+      renderer.setScissorTest(true);
+      const split = Math.round(width * wipe);
+      renderer.setScissor(0, 0, split, height);
+      renderer.render(previousPoints.scene, camera);
+      renderer.setScissor(split, 0, width - split, height);
+      renderer.render(currentPoints.scene, camera);
+      renderer.setScissorTest(false);
+    } else {
+      renderer.render(currentPoints.scene, camera);
+    }
+    $("scene").dataset.camera = camera.position
+      .toArray()
+      .map((x) => x.toFixed(2))
+      .join(",");
+    $("scene").dataset.frames = String(++renderedFrames);
+    viewer.classList.add("ready");
+    viewer.dataset.renderMode = "gaussian-splatting";
+  } catch (e) {
+    showFallback(e.message);
+  } finally {
+    rendering = false;
+  }
+}
 
 async function start() {
-  if (query.has("fallback")) return fallback("Fallback preview requested");
-  const probe = document.createElement("canvas");
-  const gl = probe.getContext("webgl2");
-  if (!gl) return fallback("WebGL 2 unavailable");
-  gl.getExtension("WEBGL_lose_context")?.loseContext();
-  pc = await import("playcanvas");
-  if (failed) return;
-  app = new pc.Application(canvas, {
-    graphicsDeviceOptions: {
-      antialias: false,
-      alpha: false,
-      powerPreference: "high-performance",
-      preserveDrawingBuffer: query.has("capture"),
-    },
-  });
-  app.graphicsDevice.maxPixelRatio = Math.min(
-    devicePixelRatio,
-    viewer.clientWidth < 600 ? 1.5 : 2,
+  const response = await fetch("./data/surveys/manifest.json");
+  if (!response.ok) throw new Error("Survey manifest unavailable");
+  manifest = await response.json();
+  const startRecord = Number(query.get("record") ?? 2);
+  requested =
+    Number.isInteger(startRecord) && startRecord >= 0 && startRecord <= 2
+      ? startRecord
+      : 2;
+  setRecordUI(requested);
+  if (fallback) return showFallback("Requested");
+  THREE = await import("three");
+  ({ SparkRenderer, SplatMesh } = await import("@sparkjsdev/spark"));
+  const { OrbitControls } = await import(
+    "three/addons/controls/OrbitControls.js"
   );
-  app.setCanvasFillMode(
-    pc.FILLMODE_NONE,
-    viewer.clientWidth,
-    viewer.clientHeight,
-  );
-  app.setCanvasResolution(pc.RESOLUTION_AUTO);
-  app.autoRender = true;
-  app.scene.toneMapping = pc.TONEMAP_LINEAR;
-  camera = new pc.Entity("Camera");
-  camera.addComponent("camera", {
-    clearColor: new pc.Color(24 / 255, 27 / 255, 25 / 255),
-    fov: 44,
-    nearClip: 0.03,
-    farClip: 20,
+  if (fallback) return;
+  renderer = new THREE.WebGLRenderer({
+    canvas: $("scene"),
+    antialias: false,
+    preserveDrawingBuffer: query.has("capture"),
   });
-  app.root.addChild(camera);
-  const asset = new pc.Asset("Construction building", "gsplat", {
-    url: "./data/building/meta.json",
-  });
-  app.assets.add(asset);
-  await new Promise((resolve, reject) => {
-    asset.ready(resolve);
-    asset.once("error", reject);
-    app.assets.load(asset);
-  });
-  if (failed) {
-    asset.unload();
-    app.destroy();
-    app = null;
-    return;
-  }
-  const building = new pc.Entity("Building — one public capture");
-  building.setEulerAngles(0, 0, 180);
-  building.addComponent("gsplat", { asset });
-  app.root.addChild(building);
-  sceneMaterial = app.scene.gsplat.material;
-  // This is a presentation mask only. No generated geometry, invented scans, or change-detection claim.
-  sceneMaterial.getShaderChunks("glsl").set(
-    "gsplatModifyVS",
-    `
-    uniform float uReveal;
-    void modifySplatCenter(inout vec3 center) {}
-    void modifySplatRotationScale(vec3 originalCenter, vec3 modifiedCenter, inout vec4 rotation, inout vec3 scale) {}
-    void modifySplatColor(vec3 center, inout vec4 color) {
-      float height = center.y;
-      float visibility = 1.0 - smoothstep(uReveal - 0.008, uReveal + 0.008, height);
-      color.a *= visibility;
-    }
-  `,
-  );
-  sceneMaterial.setParameter("uReveal", currentCutoff);
-  sceneMaterial.update();
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 1.6));
+  renderer.setClearColor("#e9e9e3");
+  renderer.autoClear = false;
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  camera = new THREE.PerspectiveCamera(43, 1, 0.1, 3000);
+  camera.position.fromArray(manifest.camera.position);
+  controls = new OrbitControls(camera, renderer.domElement);
+  controls.target.fromArray(manifest.camera.target);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.08;
+  controls.minDistance = 20;
+  controls.maxDistance = 700;
+  controls.maxPolarAngle = Math.PI * 0.47;
+  controls.addEventListener("change", invalidateView);
+  controls.update();
   const resize = () => {
-    if (!app || failed) return;
-    app.resizeCanvas(viewer.clientWidth, viewer.clientHeight);
-    viewDirty = true;
-    app.renderNextFrame = true;
+    if (fallback) return;
+    const w = viewer.clientWidth,
+      h = viewer.clientHeight;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    invalidateView();
   };
   new ResizeObserver(resize).observe(viewer);
   resize();
-  loaded = true;
-  app.start();
-  app.renderNextFrame = true;
-  clearTimeout(loadTimeout);
-  viewer.classList.add("ready");
-  viewer.dataset.renderMode = "gaussian-splat";
-  $("loading").hidden = true;
-  $("render-label").textContent = "GAUSSIAN SPLAT";
-  // Authoring-only image export makes fallback stills from the actual GPU-rendered scene.
+  resetCamera();
+  $("scene").addEventListener("keydown", (e) => {
+    if (
+      ![
+        "ArrowLeft",
+        "ArrowRight",
+        "ArrowUp",
+        "ArrowDown",
+        "+",
+        "-",
+        "=",
+      ].includes(e.key)
+    )
+      return;
+    e.preventDefault();
+    const offset = camera.position.clone().sub(controls.target),
+      spherical = new THREE.Spherical().setFromVector3(offset);
+    if (e.key === "ArrowLeft") spherical.theta -= 0.1;
+    if (e.key === "ArrowRight") spherical.theta += 0.1;
+    if (e.key === "ArrowUp") spherical.phi = Math.max(0.1, spherical.phi - 0.1);
+    if (e.key === "ArrowDown")
+      spherical.phi = Math.min(1.5, spherical.phi + 0.1);
+    if (e.key === "+" || e.key === "=") spherical.radius *= 0.9;
+    if (e.key === "-") spherical.radius *= 1.1;
+    camera.position
+      .copy(controls.target)
+      .add(new THREE.Vector3().setFromSpherical(spherical));
+    controls.update();
+    dirty = true;
+  });
+  draw();
+  await selectRecord(requested);
+  if (fallback) return;
+  loadRecord(0).catch(() => {});
   if (query.has("capture")) {
-    const exportButton = document.createElement("button");
-    exportButton.id = "export-still";
-    exportButton.textContent = "Export phase still";
-    exportButton.style.cssText =
-      "position:fixed;top:0;right:0;z-index:20;background:#121413;color:white;padding:10px";
-    document.body.append(exportButton);
-    exportButton.onclick = () =>
-      canvas.toBlob(
-        (blob) => {
-          const a = document.createElement("a");
-          a.href = URL.createObjectURL(blob);
-          a.download = `phase-${phaseIndex + 1}.webp`;
-          a.click();
-          setTimeout(() => URL.revokeObjectURL(a.href), 1000);
-        },
-        "image/webp",
-        0.88,
+    const button = document.createElement("button");
+    button.textContent = "Save survey still";
+    button.id = "save-still";
+    button.style.cssText =
+      "position:fixed;right:0;top:0;z-index:50;background:white;padding:10px";
+    button.onclick = () => {
+      const filename = `${manifest.records[selected].date}${viewer.clientWidth / viewer.clientHeight < 0.9 ? "-mobile" : ""}.webp`;
+      button.disabled = true;
+      button.textContent = "Saving survey still";
+      dirty = true;
+      requestAnimationFrame(() =>
+        $("scene").toBlob(
+          async (blob) => {
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = filename;
+            if (import.meta.env.DEV) {
+              button.disabled = true;
+              try {
+                const response = await fetch(`/__save-still/${a.download}`, {
+                  method: "POST",
+                  body: blob,
+                  headers: { "Content-Type": "image/webp" },
+                });
+                if (!response.ok) throw new Error(await response.text());
+                button.textContent = await response.text();
+              } catch (error) {
+                button.textContent = `Export failed: ${error.message}`;
+              }
+              button.disabled = false;
+            } else {
+              a.click();
+              button.disabled = false;
+              button.textContent = "Save survey still";
+            }
+            setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+          },
+          "image/webp",
+          0.9,
+        ),
       );
+    };
+    document.body.append(button);
   }
 }
-start().catch((error) => fallback(error.message || String(error)));
+const timeout = setTimeout(() => showFallback("Loading timeout"), 45000);
+start()
+  .catch((e) => showFallback(e.message))
+  .finally(() => clearTimeout(timeout));
