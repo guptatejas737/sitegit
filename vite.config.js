@@ -1,11 +1,46 @@
 import { defineConfig } from "vite";
-import { writeFile } from "node:fs/promises";
+import { writeFile, mkdir } from "node:fs/promises";
 export default defineConfig({
   base: "./",
   plugins: [
     {
       name: "local-survey-still-export",
       configureServer(server) {
+        server.middlewares.use("/__qa-export", async (req, res) => {
+          const name = new URL(req.url, "http://localhost").pathname.slice(1);
+          if (
+            req.method !== "POST" ||
+            !/^[-a-zA-Z0-9]+\.(zip|png|csv|json|md|html)$/.test(name) ||
+            !/^http:\/\/(127\.0\.0\.1|localhost):4173$/.test(
+              req.headers.origin || "",
+            )
+          ) {
+            res.writeHead(403);
+            res.end();
+            return;
+          }
+          try {
+            const chunks = [];
+            let size = 0;
+            for await (const chunk of req) {
+              size += chunk.length;
+              if (size > 60_000_000) throw Error("Export too large");
+              chunks.push(chunk);
+            }
+            await mkdir(new URL("qa/browser-exports/", import.meta.url), {
+              recursive: true,
+            });
+            await writeFile(
+              new URL("qa/browser-exports/" + name, import.meta.url),
+              Buffer.concat(chunks),
+            );
+            res.writeHead(200);
+            res.end("QA export saved");
+          } catch (error) {
+            res.writeHead(400);
+            res.end(error.message);
+          }
+        });
         // Local authoring only. This endpoint is absent from production builds.
         server.middlewares.use("/__save-still", async (req, res) => {
           const name = new URL(req.url, "http://localhost").pathname.slice(1);
@@ -53,5 +88,10 @@ export default defineConfig({
       },
     },
   ],
-  build: { chunkSizeWarningLimit: 1800 },
+  build: {
+    chunkSizeWarningLimit: 1800,
+    rollupOptions: {
+      input: { workspace: "index.html", survey: "survey.html" },
+    },
+  },
 });

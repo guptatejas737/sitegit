@@ -1,0 +1,37 @@
+{
+  "id": 9186987,
+  "ref": "danielmao2019/ivision-fall2024",
+  "subtitle": "",
+  "creatorName": "Anonymous",
+  "creatorUrl": null,
+  "totalBytes": 80643089288,
+  "url": null,
+  "lastUpdated": "2026-01-03T20:38:17.593Z",
+  "downloadCount": 2901,
+  "isPrivate": false,
+  "isFeatured": false,
+  "licenseName": "MIT",
+  "description": "The iVISION dataset is a publicly released dataset collected through drone missions conducted over a University of Waterloo residential building construction site. It is intended to support academic research in computer vision, computer graphics, and robotics. The data were captured using a DJI Matrice 350 drone equipped with a Zenmuse L2 sensor and an RTK base station. We release all raw data collected during these missions, including high-resolution RGB images, raw LiDAR data, and video recordings.\n\nDue to size limitations, we split the dataset by scenes. The split is defined below:\nSep 2024 - Dec 2024: [https://www.kaggle.com/datasets/danielmao2019/ivision-fall2024](https://www.kaggle.com/datasets/danielmao2019/ivision-fall2024)\nJan 2025 - Apr 2025: [https://www.kaggle.com/datasets/danielmao2019/ivision-winter2025](https://www.kaggle.com/datasets/danielmao2019/ivision-winter2025)",
+  "ownerName": "Anonymous",
+  "ownerRef": "danielmao2019",
+  "kernelCount": 0,
+  "title": "iVISION - Fall2024",
+  "topicCount": 0,
+  "viewCount": 351,
+  "voteCount": 2,
+  "currentVersionNumber": 1,
+  "usabilityRating": 0.4375,
+  "tags": [],
+  "files": [],
+  "versions": [
+    {
+      "versionNumber": 1,
+      "creationDate": "2026-01-03T20:38:17.593Z",
+      "creatorName": "Anonymous",
+      "creatorRef": "ivision-fall2024",
+      "versionNotes": "Initial release",
+      "status": "Ready"
+    }
+  ],
+  "thumbnailImageUrl": "https://storage.googleapis.com/kaggle-datasets-images/new-version-temp-images/default-backgrounds-19.png-8198772/dataset-thumbnail.png"
+}
