@@ -137,6 +137,10 @@
   background: #fafaf8e8;
   padding: 5px 8px;
 }
+.history-stage:has(#history-photos:not([hidden])) .history-corner {
+  top: 15px;
+  bottom: auto;
+}
 .history-compare-labels {
   position: absolute;
   inset: 15px 18px auto;
