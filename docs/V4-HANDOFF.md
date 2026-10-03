@@ -2,7 +2,7 @@
 
 This release restores the 3D site history as the first screen of a fresh iVISION workspace. A visitor can orbit a dated reconstruction, compare visits, watch a short guided camera sequence and open the original photos. The existing evidence desk remains the place to review observations, plan dates, quantities and documents. Public deployment target: [sitecommit.vercel.app](https://sitecommit.vercel.app); source: [guptatejas737/sitegit](https://github.com/guptatejas737/sitegit).
 
-**Release verification status: local workflows, downloaded outputs, limited-network browser testing and final automated checks passed.** Only same-project deployment and live smoke checks remain pending. The release record below distinguishes actual checks from implementation descriptions.
+**Release verification status: deployed and checked on the same public URL.** Application commit `73fe06d8021db29a6c28617affb085be839ba560` was pushed and deployed; final local tests and the production smoke checks below passed. This final documentation update records the results without changing the deployed application. Testing used desktop Chromium at desktop and 390px viewports, not a physical phone.
 
 ## What is restored and new
 
@@ -60,7 +60,7 @@ The static output is `dist/`. `npm run preview` serves it on port 4173; stop the
 vercel --prod
 ```
 
-If starting from a fresh clone, link the **existing `sitecommit` Vercel project** first rather than creating a new project or alias. The required production URL remains `https://sitecommit.vercel.app/`. A successful deployment command is insufficient by itself: open that exact URL and exercise the initial 3D view, timeline, compare, walkthrough and real export. Record the deployed commit and actual result below.
+If starting from a fresh clone, link the **existing `sitecommit` Vercel project** first rather than creating a new project or alias. The production URL remains `https://sitecommit.vercel.app/`. For future releases, a successful deployment command is insufficient by itself: open that exact URL and exercise the initial 3D view, timeline, compare, walkthrough and real export. The current deployed commit and actual results are recorded below.
 
 For a repeatable limited-network check of the built app:
 
@@ -102,15 +102,19 @@ The following entries are from the v4 browser and export exercise. v3 screenshot
 | 390px and retained desk pages | At 390 × 844 and desktop width, all seven pages captured and visually reviewed. Photo comparison loaded 2 October view 2 against 7 December view 4. Phone walkthrough played through 45 seconds, advancing September → October; pause and seek to 30 seconds worked |
 | Model note: source/date mapping, reload and return | Derived-intersection note attached to the 27 November source frame, saved, reloaded; generated report retained its anchor. The direct return-to-3D button reopened the saved date and camera |
 | Buyer update: edit/save/reload | Manual comparison summary saved; buyer update generated, edited and retained after refresh. Selected before/after source IDs included. Exported HTML retained its full buyer-update heading, summary and notes |
-| PNG outputs | Visually inspected actual rendered 3D-view PNG (1,907,139 bytes) and two-photo comparison PNG (2,187,870 bytes). The photo sheet shows 2 October view 2 and 7 December view 1 with correct images, dates, source hashes and license information |
+| PNG outputs | Visually inspected the final actual rendered 3D-view PNG (2,088,594 bytes), including summary context, source and model hashes, and the two-photo comparison PNG (2,187,870 bytes). The photo sheet shows 2 October view 2 and 7 December view 1 with correct images, dates, source hashes and license information |
 | Evidence ZIP / offline review | Downloaded roughly 6.44 MB ZIP, extracted and inspected all 17 entries: two verified September/November survey records in `model-context.json`; two dated model stills; three source photographs, all loaded offline; one annotation sheet; one drawing PNG plus JSON; plan/quantity records and observations including the model anchor. Rendered the extracted review document |
 | Share view/note: reopened with no sender-local state | Opened the shared link on a separate localhost origin containing zero local notes. It restored the November model and source photo and displayed the embedded reviewer note as unverified. Ordinary local workspace records were not implied to be synchronized |
 | Throttled fresh-tab load and interaction | At 390px, fresh tab reached an actual WebGL frame; keyboard orbit changed camera/render count; September/November comparison reached another rendered frame. November 4,358,946-byte SPZ transferred in 21.969s, September 3,541,224-byte SPZ in about 18s. The uncompressed Spark transfer in this pre-optimization profile took 13.235s. These are transfer timings, not total readiness/FPS or physical-phone results |
-| Fallback and separate data | Forced fallback changed September → November with dated images loaded and comparison available. Montijo showed twelve photo dates, disabled 3D and no undefined image requests |
+| Fallback and separate data | Forced fallback changed September → November with dated images loaded and comparison available. Montijo showed twelve photo dates, disabled 3D and no undefined image requests. Production fallback comparison and separate Montijo history were also inspected at 390px without horizontal page overflow |
 | Original `survey.html` regression | Loaded the latest model with 286,500 Gaussians; Compare previous displayed October/November. Viewport screenshot `qa/v4/legacy-survey.png` visually reviewed |
 | Console / loading / layout review | No application console errors observed in the slow-profile exercise. All seven page layouts reviewed at both widths; dated stills remained available while the interactive model loaded |
-| Git commit and same-project production deployment | **Pending release** |
-| Live initial 3D, timeline, compare, walkthrough and export | **Pending post-deploy smoke check** |
+| Git commit and same-project production deployment | App commit `73fe06d8021db29a6c28617affb085be839ba560` pushed to `main` and `codex/3d-site-history`. Existing project deployment `dpl_9fd2YnvjQBgSh2pECbmYJo9QTBNs` reached READY at `https://sitecommit-gkh7mmeaq-pointwise-labs.vercel.app`, aliased to the same `https://sitecommit.vercel.app/` |
+| Live initial 3D, timeline and compare | Fresh root-page load rendered the November model. Slider Home rendered September; End returned to November. September/November comparison rendered with divider at 51%. These checks observed actual WebGL frames rather than only fallback images |
+| Live walkthrough and 390px shared view | Walkthrough played through 33 seconds, advanced September → October and changed camera; pause and seek to 35 seconds worked. Shared tour opened at 390px with model ready, 35/72-second clock and Play control, without horizontal overflow |
+| Live photo comparison | At phone width, 2 October and 7 December source photographs both loaded for comparison with their actual dates. A final CSS-only follow-up moved the navigation hint clear of both date captions; rebuilt, redeployed and visually checked on the live URL |
+| Live buyer update and evidence ZIP | Created a buyer update with ten source frames; downloaded the actual 6,927,546-byte Windows ZIP. Inspected 21 entries with clean CRCs: ten source photos, two dated model stills, model context with camera and the production reopening URL. Checked source count, selected-timeline register and human-review gate |
+| Live console and screenshots | Zero observed application console errors. `qa/v4/live-desktop.png` and `qa/v4/live-mobile.png` visually reviewed; desktop compare/walkthrough proof was replaced with valid viewport captures |
 
 The profile server's separate HTTP checks passed: a 204,800-byte test body retained exact bytes and took about 1.20s of server transfer time with the 1.6Mbps/150ms configuration; binary and JavaScript MIME, HEAD, byte ranges, no-store headers, traversal rejection and 404/416 responses were checked. The browser rendering check is recorded separately above.
 
@@ -118,7 +122,8 @@ Local screenshots and inspected PNG exports are retained under `qa/v4/`:
 
 - History: `desktop-3d-compare.png`, `desktop-photo-compare.png`, `desktop-walkthrough.png`, `mobile-3d.png`, `mobile-3d-compare.png`, `mobile-photo-compare.png`, `mobile-walkthrough.png`.
 - Retained desk: desktop/mobile pairs for `evidence`, `plan`, `quantities`, `sketch`, `documents` and `review`.
-- Limits, data and original viewer: `desktop-fallback.png`, `mobile-fallback.png`, `desktop-montijo.png`, `mobile-throttled-ready.png`, `mobile-throttled-compare.png`, `legacy-survey.png`.
+- Limits, data and original viewer: `desktop-fallback.png`, `mobile-fallback.png`, `desktop-montijo.png`, `mobile-montijo.png`, `mobile-throttled-ready.png`, `mobile-throttled-compare.png`, `legacy-survey.png`.
 - Inspected outputs: `export-3d-view.png`, `export-photo-comparison.png`, `export-review.png`.
+- Production: `live-desktop.png`, `live-mobile.png`, `live-mobile-photo.png`.
 
-A full-page capture can clear the WebGL canvas while resizing it; actual 3D rendering was checked with viewport screenshots rather than treating a blank full-page canvas as proof. These local artifacts are ignored by git. Deployment proof must be added only after the live URL is opened and inspected.
+A full-page capture can clear the WebGL canvas while resizing it; actual 3D rendering was checked with viewport screenshots rather than treating a blank full-page canvas as proof. These local artifacts are ignored by git. The production captures above were taken after opening and exercising the live URL. None establishes physical-handset, GPU, survey or billing accuracy.
