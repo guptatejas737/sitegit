@@ -37,17 +37,28 @@ export function renderReportText(body, evidenceIds = []) {
     })
     .join("\n");
 }
+function safeReviewURL(value) {
+  if (typeof value !== "string" || value.length > 12000) return null;
+  try {
+    const url = new URL(value);
+    return ["http:", "https:"].includes(url.protocol) &&
+      !url.username &&
+      !url.password
+      ? url.href
+      : null;
+  } catch {
+    return null;
+  }
+}
 export function reportHTML(doc, p, frames, { bundled = false } = {}) {
   const evidence = frames.filter(
     (f) => doc.evidenceIds.includes(f.id) && f.projectId === p.id,
   );
+  const reviewURL = safeReviewURL(doc.history?.reviewUrl);
   return `<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${h(doc.title)}</title><style>body{max-width:1000px;margin:40px auto;padding:0 24px;font:15px/1.6 Arial;color:#242824;background:#fafaf8}h1{font-size:30px}header{border-bottom:2px solid #ff5a1f}p{overflow-wrap:anywhere}h2{margin-top:36px;border-bottom:1px solid #ccc;padding-bottom:8px}h3{margin-top:26px}figure:target{outline:3px solid #ff5a1f;outline-offset:8px}figure{margin:30px 0;break-inside:avoid}img{max-width:100%;height:auto}a{color:#343c32}aside{padding:16px;background:#eee}small{overflow-wrap:anywhere}@media print{body{margin:0}a{color:inherit}}</style><header><p>SITECOMMIT / REMOTE REVIEW</p><h1>${h(doc.title)}</h1><p>${h(p.name)} · ${h(doc.from)} — ${h(doc.to)}</p></header><aside><strong>${h(GATE)}</strong><p>${h(doc.baselineDisclosure)}</p><p>Saved draft snapshot: ${h(doc.updatedAt)}. Edited text is reviewer-authored; evidence below is the retained source register.</p></aside><article>${renderReportText(
-    doc.body
-      .split(/\n\s*\n/)
-      .filter((block, i) => i > 3)
-      .join("\n\n"),
+    doc.body,
     doc.evidenceIds,
-  )}</article><h2>Source evidence</h2>${evidence.map((f) => `<figure id="${h(f.id)}"><a href="${h(bundled ? "evidence/" + f.id + ".webp" : new URL(f.url, location.href).href)}"><img src="${h(bundled ? "evidence/" + f.id + ".webp" : new URL(f.url, location.href).href)}" alt="${h(f.id + " · " + f.date)}"></a><figcaption><strong>${h(f.id + " · " + f.date)}</strong><br>${h(f.sourceFile)}<br><a href="${h(f.sourceUrl)}">Dataset source</a> · ${h(f.license)} · ${h(f.credit)}<br><small>Original SHA-256: ${h(f.originalSha256)}<br>${h(f.alignment)}</small></figcaption></figure>`).join("")}<p>Prepared in SiteCommit. No signature, approval or independently validated measurement is implied.</p></html>`;
+  )}</article>${reviewURL ? `<p><a href="${h(reviewURL)}" target="_blank" rel="noopener noreferrer">Reopen the dated SiteCommit review</a></p>` : ""}${bundled && doc.history ? `<p><a href="model-context.json">Saved view and source provenance</a>. ${doc.history.surveys?.length ? "Dated reconstruction stills are in the model-stills folder; SPZ files remain cited assets." : "This photo review contains no reconstructed model assets."}</p>` : ""}<h2>Source evidence</h2>${evidence.map((f) => `<figure id="${h(f.id)}"><a href="${h(bundled ? "evidence/" + f.id + ".webp" : new URL(f.url, location.href).href)}"><img src="${h(bundled ? "evidence/" + f.id + ".webp" : new URL(f.url, location.href).href)}" alt="${h(f.id + " · " + f.date)}"></a><figcaption><strong>${h(f.id + " · " + f.date)}</strong><br>${h(f.sourceFile)}<br><a href="${h(f.sourceUrl)}">Dataset source</a> · ${h(f.license)} · ${h(f.credit)}<br><small>Original SHA-256: ${h(f.originalSha256)}<br>${h(f.alignment)}</small></figcaption></figure>`).join("")}<p>Prepared in SiteCommit. No signature, approval or independently validated measurement is implied.</p></html>`;
 }
 export function quantityCSV(qs) {
   return csv(
@@ -115,6 +126,77 @@ export async function evidencePackage(doc, p, frames, sketches = []) {
       `Open review.html for remote review. All files are a saved draft snapshot.\n${GATE}\n${doc.baselineDisclosure}\nOriginal site imagery is credited in evidence/provenance.json. Schedules, notes and quantities are reviewer input or explicitly illustrative. No owner BOQ is supplied.`,
     ),
   };
+  if (doc.history) {
+    const saved = doc.history;
+    if (saved.projectId !== p.id || !Array.isArray(saved.surveys))
+      throw Error("Saved model context does not match this project.");
+    const surveys = [];
+    if (saved.surveys.length) {
+      // Only this fixed, shipped manifest is read. Backup-provided source URLs
+      // must never become arbitrary network requests during package export.
+      const response = await fetch("./data/surveys/manifest.json");
+      if (!response.ok)
+        throw Error("Could not verify the survey manifest. Nothing exported.");
+      const manifest = await response.json();
+      if (manifest.source !== p.sourceUrl)
+        throw Error("Survey manifest belongs to a different source project.");
+      for (const snapshot of saved.surveys) {
+        const record = manifest.records?.find(
+          (r) =>
+            r.date === snapshot.date &&
+            r.available === true &&
+            [saved.date, saved.beforeDate].includes(r.date) &&
+            r.sha256 === snapshot.sha256 &&
+            /^[a-f0-9]{64}$/i.test(r.sha256) &&
+            r.url === snapshot.url &&
+            r.url === `./data/surveys/${r.date}.spz` &&
+            r.still === snapshot.still &&
+            r.still === `./data/surveys/${r.date}.webp` &&
+            /^\d{4}-\d{2}-\d{2}$/.test(r.date),
+        );
+        if (!record)
+          throw Error(
+            "A saved survey does not match the verified local manifest. Nothing exported.",
+          );
+        if (!surveys.some((r) => r.date === record.date))
+          surveys.push({
+            ...record,
+            bundledStill: `model-stills/${record.date}.webp`,
+          });
+      }
+      await Promise.all(
+        surveys.map(async (record) => {
+          const response = await fetch(record.still);
+          if (!response.ok)
+            throw Error(
+              `Could not bundle the ${record.date} survey still. Nothing exported.`,
+            );
+          files[record.bundledStill] = new Uint8Array(
+            await response.arrayBuffer(),
+          );
+        }),
+      );
+    }
+    files["model-context.json"] = strToU8(
+      JSON.stringify(
+        {
+          projectId: p.id,
+          mode: saved.mode,
+          date: saved.date,
+          beforeDate: saved.beforeDate || null,
+          camera: saved.camera || null,
+          reviewUrl: safeReviewURL(saved.reviewUrl),
+          source: p.sourceUrl,
+          license: p.license,
+          surveys,
+          limitation:
+            "Derived reconstructions and saved viewer coordinates are approximate context, not surveyed measurements. Dated stills are bundled; SPZ assets are cited by URL and SHA-256, not included. The interactive review link requires an internet connection.",
+        },
+        null,
+        2,
+      ),
+    );
+  }
   await Promise.all(
     chosen.map(async (f) => {
       const res = await fetch(f.url);

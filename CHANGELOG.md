@@ -1,0 +1,11 @@
+# Changelog
+
+## v4 — 3D site history restored
+
+**Restored:** the default iVISION screen is an embedded orbitable 3D history with the original three independent reconstructions, dated scrubber and source photos. The original `survey.html`, its loader and verified assets remain available. The evidence desk supports the history rather than replacing it.
+
+**Added:** arbitrary available-date comparisons (shared-camera 3D wipe or photo pairs); a pauseable 72-second camera walkthrough with actual date steps; editable before/after summaries; source-linked notes with approximate 3D context and return-to-viewpoint; explicit view/note sharing; a buyer-update document action; dated-view PNG export. Existing observations, plan, quantities, markup, documents, hidden-work retrieval, backups and evidence ZIPs remain.
+
+**Verified locally:** primary sources/licenses; final 49/49 tests; all three SPZs and sixty photo derivatives; production build and diff whitespace check; all seven page layouts at 1440 × 1000 and 390 × 844; actual 3D orbit/comparison; desktop and phone walkthrough playback/pause/scrub; saved model notes and edited buyer updates surviving refresh; isolated-origin note sharing; fallback; actual PNGs and a 17-file offline evidence ZIP. The original survey viewer loaded its 286,500-Gaussian model and October/November comparison. The limited-network phone-width run loaded interactive 3D, orbited and compared September/November without observed console errors. **Pending release:** same-project deployment and live smoke checks. Detailed evidence and profile limits are in the [handoff](docs/V4-HANDOFF.md).
+
+**Still weak:** three reconstructed dates, not twelve; partial aerial coverage and imperfect registration; editorial/manual stages, no validated automatic change detector; contextual pins are not surveyed coordinates; locally saved records are not cloud collaboration or approvals. Cold loading is noticeable: the November SPZ transfer took about 22 seconds in the local 1.6Mbps-per-connection profile. The nominal 72 seconds exclude loading pauses. Network-profile testing does not establish physical-phone/GPU performance or measurement accuracy. Montijo remains a separate photo-only record.

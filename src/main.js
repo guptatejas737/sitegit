@@ -1,4 +1,11 @@
 import "./style.css";
+import { mountHistory } from "./history.js";
+import {
+  parseHistoryLink,
+  parseModelAnchor,
+  buildShareURL,
+} from "./history-model.js";
+import { datedViewSheet } from "./history-sheet.js";
 import {
   EXAMPLE,
   GATE,
@@ -42,8 +49,12 @@ const app = document.getElementById("app"),
 let catalog,
   state,
   storageError = false;
+let manifest,
+  historyController,
+  historyInitial = {};
+const historyMemory = new Map();
 const ui = {
-  page: "evidence",
+  page: "history",
   compare: false,
   drawingRegion: false,
   activityFilter: "",
@@ -65,7 +76,114 @@ function toast(message, error = false) {
   toastTimer = setTimeout(() => (el.className = ""), 7000);
 }
 function render() {
+  historyController?.dispose();
+  historyController = null;
+  document.body.classList.toggle("history-page", ui.page === "history");
   app.innerHTML = shell(project(), state, ui, catalog);
+  if (ui.page === "history") {
+    const p = project();
+    historyController = mountHistory(document.getElementById("site-history"), {
+      project: p,
+      catalog,
+      manifest,
+      initial:
+        historyInitial.projectId === p.id
+          ? historyInitial
+          : historyMemory.get(p.id) || {},
+      onRemember: (s) => historyMemory.set(p.id, s),
+      onSave: persist,
+      onError: toast,
+      onEvidence: showEvidence,
+      onPage: navigate,
+      onEditNote: (id) => actions["edit-observation"](id),
+      onNote: (anchor, f) => {
+        p.selectedEvidenceId = f.id;
+        open(
+          observationForm(
+            { evidenceId: f.id, modelAnchor: anchor, region: [0, 0, 1, 1] },
+            p,
+            catalog.frames,
+          ),
+        );
+      },
+      onShare: (url, hasNote) =>
+        open(
+          modalFrame(
+            "Share this site view",
+            `<p>The link restores this project, dates and camera.${hasNote ? " It also contains the selected reviewer note. Anyone with this link can read it." : " Your local notes and workspace are not included."}</p><label>Shareable review link<textarea id="share-url" rows="5" readonly>${h(url)}</textarea></label><div class="row">${button("Copy link", "copy-share")}<a class="button" href="${h(url)}" target="_blank">Open review link ↗</a></div><p class="small">No account or cloud storage is required. Shared notes are unverified reviewer text; a link does not confer approval.</p>`,
+          ),
+        ),
+      onUpdate: (s) => {
+        const period = [s.beforeDate, s.date].sort();
+        const d = generateDocument(
+          p,
+          catalog.frames,
+          "Progress report",
+          period[0],
+          period[1],
+          p.activities.map((a) => a.id),
+        );
+        d.body =
+          `# Buyer update · ${p.shortName || p.name}\n${period.join(" → ")}\n\n${s.summary.summary}\nSource: ${s.summary.author ? "Reviewer " + s.summary.author : s.summary.source}.\nBefore/after evidence: ${s.evidenceIds.join(", ")}.\nView: ${s.mode === "3d" ? "Independent Gaussian-splat reconstructions from actual captures; approximate registration." : "Real source photographs; viewpoints may differ."}\n\n` +
+          d.body;
+        const reportFrameCount = d.evidenceIds.length;
+        d.evidenceIds = [...new Set([...d.evidenceIds, ...s.evidenceIds])];
+        d.body = d.body.replace(
+          `${reportFrameCount} evidence frame(s).`,
+          `${d.evidenceIds.length} evidence frame(s), including the selected timeline sources.`,
+        );
+        d.body +=
+          "\n\n## Selected timeline source frames\n\n" +
+          s.evidenceIds
+            .map((id) => {
+              const f = catalog.frames.find((f) => f.id === id);
+              return `[${f.id}] ${f.date} · view ${f.view}\nImage: ${f.url}\nOriginal filename: ${f.sourceFile}\nSource: ${f.sourceUrl} · ${f.license}\nOriginal SHA-256: ${f.originalSha256}`;
+            })
+            .join("\n\n");
+        d.title = `Buyer update · ${s.date}`;
+        d.history = {
+          ...s,
+          reviewUrl: buildShareURL(location.href, s),
+          camera: s.camera || null,
+          surveys:
+            s.mode === "3d"
+              ? manifest.records.filter((r) =>
+                  [s.date, s.beforeDate].includes(r.date),
+                )
+              : [],
+        };
+        p.documents.push(d);
+        ui.docId = d.id;
+        persist();
+        navigate("documents");
+        toast("Buyer update generated. Review and edit it before sharing.");
+      },
+      onExport: async (blob, s) =>
+        exportFile(
+          "SiteCommit-dated-view.png",
+          await datedViewSheet(
+            blob,
+            {
+              ...s,
+              summaryFrames: catalog.frames.filter(
+                (f) =>
+                  f.projectId === p.id &&
+                  s.summary?.evidenceIds?.includes(f.id),
+              ),
+              surveys:
+                s.mode === "3d"
+                  ? manifest.records.filter((r) =>
+                      [s.date, s.beforeDate].includes(r.date),
+                    )
+                  : [],
+            },
+            p,
+          ),
+          "image/png",
+        ),
+    });
+    historyInitial = {};
+  }
   bindRegion();
   if (storageError)
     document.getElementById("save-state").textContent =
@@ -233,6 +351,27 @@ function sourcesModal() {
   );
 }
 const actions = {
+  "copy-share": async () => {
+    const el = document.getElementById("share-url");
+    try {
+      await navigator.clipboard.writeText(el.value);
+      toast("Review link copied.");
+    } catch {
+      el.select();
+      toast("Select and copy the review link.");
+    }
+  },
+  "show-model-note": (id) => {
+    const o = project().observations.find((o) => o.id === id);
+    historyInitial = {
+      projectId: project().id,
+      mode: "3d",
+      date: o.modelAnchor.date,
+      camera: o.modelAnchor.camera,
+      observationId: id,
+    };
+    navigate("history");
+  },
   navigate: (id) => navigate(id),
   "close-modal": close,
   projects: projectsModal,
@@ -241,7 +380,7 @@ const actions = {
     saveDocumentEdits();
     state.activeProjectId = id;
     Object.assign(ui, {
-      page: "evidence",
+      page: "history",
       compare: false,
       activityFilter: "",
       locationFilter: "",
@@ -529,6 +668,9 @@ document.addEventListener("submit", (e) => {
   try {
     if (form.getAttribute("id") === "observation-form") {
       data.id = data.id || uid("obs");
+      data.modelAnchor = data.modelAnchor
+        ? parseModelAnchor(data.modelAnchor, p, catalog, manifest)
+        : null;
       data.region = ["x", "y", "w", "h"].map(
         (k) => Number(data["region" + k]) / 100,
       );
@@ -628,7 +770,8 @@ document.addEventListener("submit", (e) => {
     } else return;
     const saved = persist();
     close();
-    render();
+    if (ui.page === "history" && historyController) historyController.refresh();
+    else render();
     if (saved) toast("Saved locally.");
   } catch (error) {
     document.getElementById("form-error").textContent = error.message;
@@ -671,9 +814,18 @@ document.addEventListener("input", (e) => {
 });
 window.addEventListener("beforeunload", saveDocumentEdits);
 window.addEventListener("hashchange", () => {
+  const shared = parseHistoryLink(location.href, catalog, manifest);
+  if (shared && location.hash.includes("?")) {
+    historyInitial = shared;
+    state.activeProjectId = shared.projectId;
+    ui.page = "history";
+    render();
+    return;
+  }
   const page = location.hash.slice(1);
   if (
     [
+      "history",
       "evidence",
       "plan",
       "quantities",
@@ -750,15 +902,17 @@ function bindRegion() {
   };
 }
 async function start() {
-  const [a, b] = await Promise.all([
+  const [a, b, c] = await Promise.all([
     fetch("./data/evidence/catalog.json"),
     fetch("./data/evidence/montijo.json"),
+    fetch("./data/surveys/manifest.json"),
   ]);
-  if (!a.ok || !b.ok)
+  if (!a.ok || !b.ok || !c.ok)
     throw Error(
       "Evidence catalog unavailable. Run the evidence preparation scripts.",
     );
   catalog = await a.json();
+  manifest = await c.json();
   const mt = await b.json();
   catalog.projects.push(mt.project);
   catalog.frames.push(...mt.frames);
@@ -780,8 +934,15 @@ async function start() {
     );
   }
   const page = location.hash.slice(1);
+  const shared = parseHistoryLink(location.href, catalog, manifest);
+  if (shared) {
+    historyInitial = shared;
+    state.activeProjectId = shared.projectId;
+    ui.page = "history";
+  }
   if (
     [
+      "history",
       "evidence",
       "plan",
       "quantities",

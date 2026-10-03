@@ -1,3 +1,5 @@
+import { ANCHOR_METHODS, validateCamera } from "./history-model.js";
+
 export const EXAMPLE = "Illustrative example, created for this demo";
 export const GATE =
   "DRAFT — human review required. Not an approved bill or contractual measurement. The 98–99% confidence requirement is a validation goal, not demonstrated accuracy.";
@@ -184,6 +186,29 @@ export function validateObservation(o, p, frames) {
     throw Error("Before image must belong to this project.");
   if (o.activityId && !p.activities.some((a) => a.id === o.activityId))
     throw Error("Work package does not belong to this project.");
+  if (o.modelAnchor) {
+    const anchor = o.modelAnchor;
+    if (anchor.projectId !== p.id || anchor.date !== f.date)
+      throw Error(
+        "Model anchor must belong to the same project and source-image date.",
+      );
+    if (!p.splatDates?.includes(anchor.date))
+      throw Error(
+        "Model anchor date has no verified 3D survey in this project.",
+      );
+    if (!ANCHOR_METHODS.includes(anchor.method))
+      throw Error(
+        "Model anchor must declare a supported visual picking method.",
+      );
+    if (
+      !(anchor.position == null && anchor.method === "camera viewpoint") &&
+      (!Array.isArray(anchor.position) ||
+        anchor.position.length !== 3 ||
+        anchor.position.some((n) => !Number.isFinite(n) || Math.abs(n) > 1000))
+    )
+      throw Error("Model anchor needs finite, bounded viewer coordinates.");
+    validateCamera(anchor.camera);
+  }
   if (
     o.qaStatus === "confirmed by reviewer" &&
     (!o.verification?.trim() || o.review !== "reviewed")
@@ -206,6 +231,51 @@ export function validateObservation(o, p, frames) {
   )
     throw Error("Region must stay inside the image.");
   return o;
+}
+
+/** Reviewer comparisons cite actual frames; no classifier or change metric is implied. */
+export function validateHistoryChange(change, p, frames) {
+  if (
+    !change ||
+    change.kind !== "reviewer" ||
+    change.source !== "Reviewer-authored comparison" ||
+    typeof change.summary !== "string" ||
+    !change.summary.trim() ||
+    change.summary.length > 10000 ||
+    typeof change.author !== "string" ||
+    !change.author.trim() ||
+    change.author.length > 180
+  )
+    throw Error(
+      "A change summary needs reviewer-authored text and a named author.",
+    );
+  if (!validDate(change.beforeDate) || !validDate(change.afterDate))
+    throw Error("A comparison needs actual valid capture dates.");
+  if (
+    !Array.isArray(change.evidenceIds) ||
+    !change.evidenceIds.length ||
+    change.evidenceIds.length > 20
+  )
+    throw Error("A comparison needs source-image references.");
+  const cited = change.evidenceIds.map((id) =>
+    frames.find((f) => f.id === id && f.projectId === p.id),
+  );
+  if (
+    cited.some(
+      (f) => !f || ![change.beforeDate, change.afterDate].includes(f.date),
+    ) ||
+    !cited.some((f) => f.date === change.beforeDate) ||
+    !cited.some((f) => f.date === change.afterDate)
+  )
+    throw Error(
+      "Comparison evidence must include both selected dates from this project.",
+    );
+  if (
+    change.activityId &&
+    !p.activities.some((a) => a.id === change.activityId)
+  )
+    throw Error("Comparison work package does not belong to this project.");
+  return change;
 }
 export function makeProject(meta, frames) {
   const pf = frames.filter((f) => f.projectId === meta.id);
@@ -264,9 +334,10 @@ export function makeProject(meta, frames) {
       ]
     : [];
   return {
-    ...meta,
+    ...clone(meta),
     activities,
     observations,
+    historyChanges: [],
     quantities: [],
     documents: [],
     drawings: [],
@@ -306,7 +377,19 @@ export function validateState(state, catalog) {
     ])
       if (!Array.isArray(p[k])) throw Error("Incomplete project backup.");
     p.activities.forEach(validateActivity);
-    p.observations.forEach((o) => validateObservation(o, p, catalog.frames));
+    // Model-date provenance comes from the shipped catalog, not editable backup metadata.
+    const verifiedProject = {
+      ...p,
+      splatDates:
+        catalog.projects.find((meta) => meta.id === p.id)?.splatDates || [],
+    };
+    p.observations.forEach((o) =>
+      validateObservation(o, verifiedProject, catalog.frames),
+    );
+    if (p.historyChanges !== undefined && !Array.isArray(p.historyChanges))
+      throw Error("Invalid saved history comparisons.");
+    for (const change of p.historyChanges || [])
+      validateHistoryChange(change, p, catalog.frames);
     for (const q of p.quantities)
       if (
         !p.activities.some((a) => a.id === q.activityId) ||
@@ -467,10 +550,24 @@ export function generateDocument(p, frames, type, from, to, activityIds) {
   const qs = p.quantities.filter(
     (q) => activityIds.includes(q.activityId) && frameIds.has(q.evidenceId),
   );
+  const changes = ["Progress report", "Progress evidence package"].includes(
+    type,
+  )
+    ? (p.historyChanges || []).filter(
+        (change) =>
+          change.afterDate >= from &&
+          change.afterDate <= to &&
+          (!change.activityId || activityIds.includes(change.activityId)),
+      )
+    : [];
+  for (const change of changes) validateHistoryChange(change, p, frames);
   const evidence = new Set(
     obs.flatMap((o) => [o.evidenceId, o.beforeEvidenceId].filter(Boolean)),
   );
   qs.forEach((q) => evidence.add(q.evidenceId));
+  changes.forEach((change) =>
+    change.evidenceIds.forEach((id) => evidence.add(id)),
+  );
   if (!evidence.size)
     scopedFrames.filter((f) => f.view === 1).forEach((f) => evidence.add(f.id));
   // A package status may cite an earlier observation outside the report period.
@@ -498,7 +595,7 @@ export function generateDocument(p, frames, type, from, to, activityIds) {
       ? EXAMPLE
       : "Baseline sources are entered by the reviewer; independently verify.",
     `Source: ${p.sourceUrl || "User-provided project"} · ${p.license || "rights not provided"}`,
-    `Client summary: ${obs.length} linked observation(s), ${qs.length} quantity draft(s), ${usedFrames.length} evidence frame(s). Status reflects reviewed visible stages, not certified completion.`,
+    `Client summary: ${obs.length} linked observation(s), ${changes.length} reviewer-authored comparison(s), ${qs.length} quantity draft(s), ${usedFrames.length} evidence frame(s). Status reflects reviewed visible stages, not certified completion.`,
     "\n## Work packages",
   ];
   lines.splice(6, 0, statusSummary);
@@ -535,6 +632,22 @@ export function generateDocument(p, frames, type, from, to, activityIds) {
       `Entered cost context (${a.currency || "currency not provided"}): labor ${a.labor || "not provided"}, equipment ${a.equipment || "not provided"}, material ${a.material || "not provided"}, budget ${a.budget || "not provided"}. Source: ${a.resourceSource || "not provided"}. Sum: ${r.total ?? "unknown"}; difference from budget: ${r.variance ?? "unknown"}.`,
     );
   }
+  if (["Progress report", "Progress evidence package"].includes(type)) {
+    lines.push("\n## Reviewer comparisons between visits");
+    if (!changes.length)
+      lines.push(
+        "No reviewer-authored comparisons for the selected period. No automated change findings are implied.",
+      );
+    for (const change of changes) {
+      lines.push(
+        `### ${change.beforeDate} → ${change.afterDate}`,
+        `Reviewer-authored comparison: ${change.summary}`,
+        `Author: ${change.author} · entered / updated: ${change.updatedAt || "not provided"}`,
+        `Evidence: ${change.evidenceIds.map((id) => `[${id}]`).join(" · ")}`,
+        "This is a human interpretation of dated evidence, not automated change detection, measured completion or proof of cause. Viewpoint and capture coverage may differ.",
+      );
+    }
+  }
   lines.push("\n## Dated observations and changes");
   if (!obs.length)
     lines.push(
@@ -551,6 +664,13 @@ export function generateDocument(p, frames, type, from, to, activityIds) {
       `Partial work: ${pc ? pc.value.toFixed(1) + "% — " + pc.label : "not provided"}`,
       `Before covering: ${o.hiddenWork ? "flagged by reviewer; not proof of later concealment" : "not flagged"}. Dimensions: ${o.dimensionNote || "not provided"} · source: ${o.dimensionSource || "not provided"}`,
     );
+    if (o.modelAnchor) {
+      const anchor = o.modelAnchor;
+      lines.push(
+        `3D context: ${anchor.method} · survey date ${anchor.date} · source image [${o.evidenceId}]. ${anchor.position ? `Viewer coordinates: ${anchor.position.join(", ")}.` : "Saved camera viewpoint; no geometric position established."}`,
+        `Saved camera position: ${anchor.camera.position.join(", ")} · target: ${anchor.camera.target.join(", ")}. Approximate reconstruction context only; viewer coordinates are not surveyed dimensions or contractual measurement.`,
+      );
+    }
   }
   lines.push("\n## Measurement draft and billing comparison");
   if (!qs.length)
@@ -593,6 +713,7 @@ export function generateDocument(p, frames, type, from, to, activityIds) {
     snapshot: {
       activities: clone(selected),
       observations: clone(obs),
+      historyChanges: clone(changes),
       quantities: clone(qs),
       drawings: clone(
         p.drawings.filter(
